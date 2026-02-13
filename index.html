@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mike Lyngaas — Product Leader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf9f7;
+      --text: #1c1c1c;
+      --text-muted: #5c5c5c;
+      --accent: #8b6914;
+      --accent-soft: #c4a84a;
+      --border: #e8e6e3;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 1.125rem;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header / Hero */
+    header {
+      padding: 4rem 0 1rem;
+      min-height: 20vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      padding: 1.5rem 0;
+      background: var(--bg);
+      z-index: 10;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .wrap {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1.75rem;
+    }
+
+    nav a {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(2.25rem, 5vw, 3rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+      line-height: 1.15;
+    }
+
+    .hero-portrait {
+      max-width: 10rem;
+      height: auto;
+      object-fit: contain;
+      border-radius: 1rem;
+      margin-bottom: 1.25rem;
+      mix-blend-mode: multiply;
+    }
+
+    .tagline {
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--text-muted);
+      margin: 0 0 0.5rem;
+    }
+
+    /* Sections */
+    section {
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    section:first-of-type {
+      border-top: none;
+    }
+
+    h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.125rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin: 0 0 1.75rem;
+    }
+
+    /* Work */
+    .role {
+      margin-bottom: 1.5rem;
+    }
+
+    .role:last-child {
+      margin-bottom: 0;
+    }
+
+    .role-title {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .role-company {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .role-company a {
+      color: var(--text-muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .role-company a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent-soft);
+    }
+
+    .role-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .work-group {
+      margin-bottom: 2.25rem;
+    }
+
+    .work-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .work-group h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin: 0 0 1rem;
+    }
+
+    /* Collapsible Previously */
+    details.work-group {
+      margin-bottom: 0;
+    }
+
+    details.work-group summary {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      cursor: pointer;
+      list-style: none;
+      margin: 0 0 1rem;
+    }
+
+    details.work-group summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.work-group summary::after {
+      content: ' +';
+      font-family: 'Source Serif 4', Georgia, serif;
+    }
+
+    details[open].work-group summary::after {
+      content: ' −';
+    }
+
+    details[open].work-group summary {
+      margin-bottom: 1rem;
+    }
+
+    details.work-group .role:first-of-type {
+      padding-top: 0;
+    }
+
+    /* Writing */
+    .writing-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .writing-list li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .writing-list li:last-child {
+      border-bottom: none;
+    }
+
+    .writing-list a {
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .writing-list a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent-soft);
+    }
+
+    /* Contact */
+    .contact-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .contact-list li {
+      padding: 0.5rem 0;
+    }
+
+    .contact-list a {
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .contact-list a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent-soft);
+    }
+
+    /* Links open in new tab - already in HTML; ensure focus style */
+    a[target="_blank"]:focus {
+      outline: 2px solid var(--accent-soft);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 3rem 0 2rem;
+        min-height: 50vh;
+      }
+
+      nav .wrap {
+        justify-content: flex-start;
+        gap: 1.25rem;
+      }
+
+      section {
+        padding: 2rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="wrap">
+      <a href="#work">Work</a>
+      <a href="#writing">Writing</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <header>
+    <div class="wrap">
+      <img src="assets/mike-illustration-portrait.png" alt="Mike Lyngaas" class="hero-portrait">
+      <h1>Mike Lyngaas</h1>
+      <p class="tagline">I like building products that solve meaningful problems for people, their businesses, and families.</p>
+    </div>
+  </header>
+
+  <main>
+    <section id="work">
+      <div class="wrap">
+        <h2>Work</h2>
+
+        <div class="work-group">
+        <h3>Currently</h3>
+        <div class="role">
+          <span class="role-title">Head of Product</span> at <span class="role-company"><a href="https://www.unifygtm.com" target="_blank" rel="noopener noreferrer">Unify</a></span>
+          <p class="role-desc">Building the future of outbound.</p>
+        </div>
+        <div class="role">
+          <span class="role-title">PM Coach</span> at <span class="role-company"><a href="https://www.rocketblocks.me/contributors/mike-lyngaas.php" target="_blank" rel="noopener noreferrer">Rocketblocks</a></span>
+          <p class="role-desc">Coaching aspiring and early-career PMs.</p>
+        </div>
+        <div class="role">
+          <span class="role-title">Mentor</span> at <span class="role-company"><a href="https://fasttrack.firstround.com/" target="_blank" rel="noopener noreferrer">First Round</a></span>
+          <p class="role-desc">Supporting founders & operators in the First Round network.</p>
+        </div>
+      </div>
+
+      <details class="work-group">
+        <summary>Previously</summary>
+        <div class="role">
+          <span class="role-title">Head of Enterprise & Collaboration Product</span> at <span class="role-company"><a href="https://webflow.com" target="_blank" rel="noopener noreferrer">Webflow</a></span>
+        </div>
+        <div class="role">
+          <span class="role-title">Product at <span class="role-company"><a href="https://gusto.com" target="_blank" rel="noopener noreferrer">Gusto</a></span></span>
+          <p class="role-desc">Led Accountants product (~30% of revenue), app integrations, and data tools.</p>
+        </div>
+        <div class="role">
+          <span class="role-title">PM at Interclick / Yahoo</span>
+          <p class="role-desc">Built ad platforms (DSP, native, mobile, search); Interclick was acquired by Yahoo.</p>
+        </div>
+        <div class="role">
+          <span class="role-title">Data analyst</span> at Ad Tech startups.
+        </div>
+      </details>
+      </div>
+    </section>
+
+    <section id="writing">
+      <div class="wrap">
+        <h2>Writing</h2>
+        <ul class="writing-list">
+          <li><a href="https://medium.com/@mikelyngaas/an-ai-agent-wishlist-fc57a63b7f15" target="_blank" rel="noopener noreferrer">An AI Agent Wishlist</a></li>
+          <li><a href="https://medium.com/p/5b4bc6164181" target="_blank" rel="noopener noreferrer">The Product Risk Cheatsheet</a></li>
+          <li><a href="https://medium.com/@mikelyngaas/perplexity-vs-google-search-a-totally-unscientific-comparison-9a58837d7a69" target="_blank" rel="noopener noreferrer">Perplexity vs. Google Search</a></li>
+          <li><a href="https://medium.com/@mikelyngaas/defining-your-pm-superpower-7d24141116b9" target="_blank" rel="noopener noreferrer">Defining your PM Superpower</a></li>
+          <li><a href="https://www.rocketblocks.me/blog/interviewing-product-managers.php" target="_blank" rel="noopener noreferrer">How to Interview Product Managers</a></li>
+          <li><a href="https://www.rocketblocks.me/blog/product-strategy.php" target="_blank" rel="noopener noreferrer">Introduction to Product Strategy</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <h2>Contact</h2>
+        <ul class="contact-list">
+          <li><a href="mailto:mlyngaas777@gmail.com" target="_blank" rel="noopener noreferrer">mlyngaas777@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/mikelyngaas/" target="_blank" rel="noopener noreferrer">linkedin.com/in/mikelyngaas</a></li>
+          <li><a href="https://twitter.com/MikeLyngaas" target="_blank" rel="noopener noreferrer">@MikeLyngaas (Twitter)</a></li>
+          <li><a href="https://medium.com/@mikelyngaas" target="_blank" rel="noopener noreferrer">@mikelyngaas (Medium)</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+</body>
+</html>
