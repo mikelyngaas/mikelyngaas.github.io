@@ -86,15 +86,17 @@
       transition: color 0.2s;
     }
 
-    nav a:hover { color: var(--accent); }
+    nav a:hover,
+    nav a.active { color: var(--accent); }
 
     /* Header / Hero */
     header {
-      padding: var(--space-5xl) 0 var(--space-lg);
-      min-height: 20vh;
+      padding: var(--space-5xl) 0 var(--space-3xl);
+      min-height: 60vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      will-change: opacity, transform;
     }
 
     h1 {
@@ -325,6 +327,35 @@
       margin: 0;
     }
 
+    /* --- Scroll animations (quiet-luxury) --- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger children within a section */
+    .fade-in:nth-child(2) { transition-delay: 0.08s; }
+    .fade-in:nth-child(3) { transition-delay: 0.16s; }
+    .fade-in:nth-child(4) { transition-delay: 0.24s; }
+    .fade-in:nth-child(5) { transition-delay: 0.32s; }
+    .fade-in:nth-child(6) { transition-delay: 0.40s; }
+    .fade-in:nth-child(7) { transition-delay: 0.48s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+    /* --- End scroll animations --- */
+
     @media (max-width: 480px) {
       header {
         padding: var(--space-4xl) 0 var(--space-2xl);
@@ -452,6 +483,7 @@
   </footer>
 
   <script>
+    // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -459,6 +491,72 @@
         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
+
+    // --- Scroll animations (quiet-luxury) ---
+
+    // 1. Fade-up on enter: tag animatable elements, reveal via IntersectionObserver
+    const fadeTargets = [
+      ...document.querySelectorAll('section h2'),
+      ...document.querySelectorAll('.work-group, details.work-group'),
+      ...document.querySelectorAll('.writing-list li'),
+      ...document.querySelectorAll('.project'),
+      ...document.querySelectorAll('.contact-list li'),
+    ];
+    fadeTargets.forEach(el => el.classList.add('fade-in'));
+
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    fadeTargets.forEach(el => fadeObserver.observe(el));
+
+    // 2. Active nav highlight: track which section is in view
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+    const sections = [...navLinks].map(a =>
+      document.querySelector(a.getAttribute('href'))
+    ).filter(Boolean);
+
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = entry.target.getAttribute('id');
+        const link = document.querySelector(`nav a[href="#${id}"]`);
+        if (!link) return;
+        if (entry.isIntersecting) {
+          navLinks.forEach(a => a.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    }, { threshold: 0, rootMargin: '-30% 0px -60% 0px' });
+
+    sections.forEach(s => navObserver.observe(s));
+
+    // 3. Hero fade-out on scroll
+    const header = document.querySelector('header');
+    const heroWrap = header?.querySelector('.wrap');
+
+    if (heroWrap) {
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const scrollY = window.scrollY;
+            const headerH = header.offsetHeight;
+            const progress = Math.min(scrollY / (headerH * 0.7), 1);
+            heroWrap.style.opacity = 1 - progress;
+            heroWrap.style.transform = `translateY(${progress * -30}px)`;
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    }
+
+    // --- End scroll animations ---
   </script>
 </body>
 </html>
