@@ -14,22 +14,43 @@
       --bg: #faf9f7;
       --text: #1c1c1c;
       --text-muted: #5c5c5c;
+      --text-light: #8a8a8a;
       --accent: #8b6914;
       --accent-soft: #c4a84a;
       --border: #e8e6e3;
+      /* Spacing scale (matches risk.html) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 0.75rem;
+      --space-lg: 1rem;
+      --space-xl: 1.5rem;
+      --space-2xl: 2rem;
+      --space-3xl: 2.5rem;
+      --space-4xl: 3rem;
+      --space-5xl: 4rem;
+      /* Type scale */
+      --text-xs: 0.75rem;
+      --text-sm: 0.875rem;
+      --text-base: 1rem;
+      --text-lg: 1.125rem;
+      --text-xl: 1.25rem;
+      --text-2xl: 1.5rem;
+      --text-hero: clamp(2.25rem, 5vw, 3rem);
+      --leading-tight: 1.25;
+      --leading-snug: 1.4;
+      --leading-normal: 1.55;
+      --leading-relaxed: 1.65;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       font-family: 'Source Serif 4', Georgia, serif;
-      font-size: 1.125rem;
-      line-height: 1.65;
+      font-size: var(--text-lg);
+      line-height: var(--leading-relaxed);
       color: var(--text);
       background: var(--bg);
       -webkit-font-smoothing: antialiased;
@@ -38,22 +59,14 @@
     .wrap {
       max-width: 42rem;
       margin: 0 auto;
-      padding: 0 1.5rem;
+      padding: 0 var(--space-xl);
     }
 
-    /* Header / Hero */
-    header {
-      padding: 4rem 0 1rem;
-      min-height: 20vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
+    /* Nav */
     nav {
       position: sticky;
       top: 0;
-      padding: 1.5rem 0;
+      padding: var(--space-xl) 0;
       background: var(--bg);
       z-index: 10;
       border-bottom: 1px solid var(--border);
@@ -62,70 +75,100 @@
     nav .wrap {
       display: flex;
       justify-content: flex-end;
-      gap: 1.75rem;
+      gap: var(--space-xl);
     }
 
     nav a {
       font-family: 'Source Serif 4', Georgia, serif;
-      font-size: 0.95rem;
+      font-size: var(--text-sm);
       color: var(--text-muted);
       text-decoration: none;
       transition: color 0.2s;
     }
 
-    nav a:hover {
-      color: var(--accent);
+    nav a:hover { color: var(--accent); }
+
+    /* Header / Hero */
+    header {
+      padding: var(--space-5xl) 0 var(--space-lg);
+      min-height: 20vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     h1 {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: clamp(2.25rem, 5vw, 3rem);
+      font-size: var(--text-hero);
       font-weight: 500;
       letter-spacing: -0.02em;
-      margin: 0 0 0.5rem;
-      line-height: 1.15;
+      margin: 0 0 var(--space-sm);
+      line-height: var(--leading-tight);
     }
 
     .hero-portrait {
       max-width: 10rem;
       height: auto;
       object-fit: contain;
-      border-radius: 1rem;
-      margin-bottom: 1.25rem;
+      border-radius: var(--space-lg);
+      margin-bottom: var(--space-xl);
       mix-blend-mode: multiply;
     }
 
     .tagline {
-      font-size: 1.25rem;
+      font-size: var(--text-xl);
       font-style: italic;
       color: var(--text-muted);
-      margin: 0 0 0.5rem;
+      margin: 0 0 var(--space-sm);
+      line-height: var(--leading-normal);
     }
 
     /* Sections */
     section {
-      padding: 2rem 0;
+      padding: var(--space-2xl) 0;
       border-top: 1px solid var(--border);
-      scroll-margin-top: 4rem;
+      scroll-margin-top: var(--space-5xl);
     }
 
     section:first-of-type {
       border-top: none;
     }
 
+    /* Section titles (Work, Writing, Contact) */
     h2 {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: 1.125rem;
+      font-size: var(--text-lg);
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: var(--text-muted);
-      margin: 0 0 1.75rem;
+      margin: 0 0 var(--space-xl);
+      line-height: var(--leading-tight);
     }
 
     /* Work */
+    .work-group {
+      margin-bottom: var(--space-3xl);
+    }
+
+    .work-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .work-group h3,
+    details.work-group summary {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+      margin: 0 0 var(--space-lg);
+      line-height: var(--leading-tight);
+    }
+
     .role {
-      margin-bottom: 1.5rem;
+      margin-bottom: var(--space-xl);
     }
 
     .role:last-child {
@@ -139,43 +182,30 @@
 
     .role-company {
       color: var(--text-muted);
-      font-size: 1rem;
+      font-size: var(--text-base);
     }
 
-    .role-company a {
-      color: var(--text-muted);
+    .role-company a,
+    .contact-list a,
+    .writing-list a {
+      color: inherit;
       text-decoration: none;
       border-bottom: 1px solid var(--border);
       transition: color 0.2s, border-color 0.2s;
     }
 
-    .role-company a:hover {
+    .role-company a:hover,
+    .contact-list a:hover,
+    .writing-list a:hover {
       color: var(--accent);
       border-bottom-color: var(--accent-soft);
     }
 
     .role-desc {
-      font-size: 0.95rem;
+      font-size: var(--text-sm);
       color: var(--text-muted);
-      margin-top: 0.25rem;
-    }
-
-    .work-group {
-      margin-bottom: 2.25rem;
-    }
-
-    .work-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .work-group h3 {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      margin: 0 0 1rem;
+      margin-top: var(--space-xs);
+      line-height: var(--leading-normal);
     }
 
     /* Collapsible Previously */
@@ -184,15 +214,8 @@
     }
 
     details.work-group summary {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
       cursor: pointer;
       list-style: none;
-      margin: 0 0 1rem;
     }
 
     details.work-group summary::-webkit-details-marker {
@@ -209,7 +232,7 @@
     }
 
     details[open].work-group summary {
-      margin-bottom: 1rem;
+      margin-bottom: var(--space-lg);
     }
 
     details.work-group .role:first-of-type {
@@ -224,7 +247,7 @@
     }
 
     .writing-list li {
-      padding: 0.6rem 0;
+      padding: var(--space-md) 0;
       border-bottom: 1px solid var(--border);
     }
 
@@ -234,14 +257,41 @@
 
     .writing-list a {
       color: var(--text);
+      border-bottom-color: transparent;
+    }
+
+    .writing-meta {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+    }
+
+    /* Side Projects */
+    .project {
+      margin-bottom: var(--space-2xl);
+    }
+
+    .project:last-child {
+      margin-bottom: 0;
+    }
+
+    .project-title {
+      font-weight: 500;
+      color: var(--text);
       text-decoration: none;
-      border-bottom: 1px solid transparent;
+      border-bottom: 1px solid var(--border);
       transition: color 0.2s, border-color 0.2s;
     }
 
-    .writing-list a:hover {
+    .project-title:hover {
       color: var(--accent);
       border-bottom-color: var(--accent-soft);
+    }
+
+    .project-desc {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      margin: var(--space-xs) 0 0;
+      line-height: var(--leading-normal);
     }
 
     /* Contact */
@@ -252,55 +302,46 @@
     }
 
     .contact-list li {
-      padding: 0.5rem 0;
+      padding: var(--space-sm) 0;
     }
 
     .contact-list a {
       color: var(--text);
-      text-decoration: none;
-      border-bottom: 1px solid var(--border);
-      transition: color 0.2s, border-color 0.2s;
     }
 
-    .contact-list a:hover {
-      color: var(--accent);
-      border-bottom-color: var(--accent-soft);
-    }
-
-    /* Links open in new tab - already in HTML; ensure focus style */
-    a[target="_blank"]:focus {
+    a:focus-visible {
       outline: 2px solid var(--accent-soft);
       outline-offset: 2px;
     }
 
     footer {
-      padding: 2rem 0;
+      padding: var(--space-2xl) 0;
       border-top: 1px solid var(--border);
     }
 
     footer p {
-      font-size: 0.85rem;
+      font-size: var(--text-sm);
       color: var(--text-muted);
       margin: 0;
     }
 
     @media (max-width: 480px) {
       header {
-        padding: 3rem 0 2rem;
+        padding: var(--space-4xl) 0 var(--space-2xl);
         min-height: 50vh;
       }
 
       nav {
-        padding: 1rem 0;
+        padding: var(--space-lg) 0;
       }
 
       nav .wrap {
         justify-content: flex-start;
-        gap: 1.25rem;
+        gap: var(--space-xl);
       }
 
       section {
-        padding: 2rem 0;
+        padding: var(--space-2xl) 0;
       }
     }
   </style>
@@ -309,6 +350,7 @@
   <nav>
     <div class="wrap">
       <a href="#work">Work</a>
+      <a href="#side-projects">Side Projects</a>
       <a href="#writing">Writing</a>
       <a href="#contact">Contact</a>
     </div>
@@ -362,6 +404,16 @@
           <p class="role-desc">Build models to predict ad performance and figured out what to do with my life.</p>
         </div>
       </details>
+      </div>
+    </section>
+
+    <section id="side-projects">
+      <div class="wrap">
+        <h2>Side Projects</h2>
+        <div class="project">
+          <a href="risk.html" class="project-title">Product Risk Advisor</a>
+          <p class="project-desc">Identify the biggest risks to your product and get actionable tactics to mitigate them early. Based on the Product Risk Cheatsheet.</p>
+        </div>
       </div>
     </section>
 
