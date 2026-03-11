@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Identify the biggest risks to your product and get actionable tactics to mitigate them early. Based on the Product Risk Cheatsheet by Mike Lyngaas.">
+  <title>Product Risk Advisor — Mike Lyngaas</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231c1c1c'/><text x='16' y='22' font-family='Georgia,serif' font-size='16' font-weight='bold' fill='%23faf9f7' text-anchor='middle'>ML</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f5f1;
+      --text: #1a1a1a;
+      --text-muted: #4a4a4a;
+      --text-light: #6b6b6b;
+      --accent: #e86b58;
+      --accent-soft: #f08d7d;
+      --accent-bg: #fef5f4;
+      --border: #e2dfda;
+      --card-bg: #ffffff;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+      --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.06);
+      /* Spacing scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 0.75rem;
+      --space-lg: 1rem;
+      --space-xl: 1.5rem;
+      --space-2xl: 2rem;
+      --space-3xl: 2.5rem;
+      --space-4xl: 3rem;
+      --space-5xl: 4rem;
+      /* Type scale */
+      --text-xs: 0.75rem;
+      --text-sm: 0.875rem;
+      --text-base: 1rem;
+      --text-lg: 1.125rem;
+      --text-xl: 1.25rem;
+      --text-2xl: 1.5rem;
+      --text-3xl: clamp(1.5rem, 3.5vw, 2rem);
+      --text-hero: clamp(2.25rem, 5vw, 3rem);
+      --leading-tight: 1.25;
+      --leading-snug: 1.4;
+      --leading-normal: 1.55;
+      --leading-relaxed: 1.65;
+      --radius: 0.5rem;
+      --radius-lg: 0.625rem;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: var(--text-lg);
+      line-height: var(--leading-relaxed);
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 0 var(--space-xl);
+    }
+
+    /* Nav */
+    nav {
+      padding: var(--space-xl) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--accent); }
+
+    .nav-back { display: flex; align-items: center; gap: var(--space-xs); }
+
+    /* Steps */
+    .step {
+      display: none;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .step.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hero / Intro */
+    .intro {
+      padding: var(--space-5xl) 0 var(--space-5xl);
+      text-align: center;
+    }
+
+    @keyframes introReveal {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .intro h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-hero);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin: 0 0 var(--space-lg);
+      line-height: var(--leading-tight);
+      opacity: 0;
+      animation: introReveal 0.55s ease forwards;
+    }
+
+    .intro .subtitle {
+      font-size: var(--text-xl);
+      color: var(--text-muted);
+      max-width: 32rem;
+      margin: 0 auto var(--space-2xl);
+      font-style: italic;
+      line-height: var(--leading-normal);
+      opacity: 0;
+      animation: introReveal 0.55s ease 0.12s forwards;
+    }
+
+    .intro-visual {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+      margin: 0 auto var(--space-3xl);
+      opacity: 0;
+      animation: introReveal 0.55s ease 0.28s forwards;
+      width: 100%;
+    }
+
+    .intro-visual-marquee {
+      overflow: hidden;
+      width: 100%;
+      padding: var(--space-sm) 0;
+    }
+
+    .intro-visual-track {
+      display: flex;
+      width: max-content;
+      animation: pillCarousel 35s linear infinite;
+    }
+
+    .intro-visual-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes pillCarousel {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .intro-visual-pills {
+      display: flex;
+      align-items: center;
+      gap: var(--space-lg);
+      flex-shrink: 0;
+      padding: 0 var(--space-lg);
+    }
+
+    .intro-risk-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: 2rem;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      cursor: default;
+      flex-shrink: 0;
+    }
+
+    .intro-risk-pill span:first-child {
+      font-size: 1.05em;
+    }
+
+    .intro-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      align-items: center;
+      opacity: 0;
+      animation: introReveal 0.55s ease 0.4s forwards;
+    }
+
+    /* Shared button base */
+    .btn {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: var(--text-base);
+      padding: var(--space-lg) var(--space-2xl);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-bg);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s, background 0.2s, color 0.2s;
+      width: 100%;
+      max-width: 22rem;
+      text-align: center;
+      line-height: var(--leading-snug);
+    }
+
+    .btn:hover {
+      border-color: var(--accent-soft);
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    .btn-primary:hover {
+      background: #333;
+      border-color: #333;
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    /* Section headers */
+    .step-header {
+      padding: var(--space-4xl) 0 var(--space-2xl);
+    }
+
+    .step-header h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-3xl);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin: 0 0 var(--space-sm);
+      line-height: var(--leading-tight);
+    }
+
+    .step-header p {
+      color: var(--text-muted);
+      margin: 0;
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+    }
+
+    .back-link {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      border: none;
+      background: none;
+      font-family: 'Source Serif 4', Georgia, serif;
+      padding: 0;
+    }
+
+    .back-link:hover { color: var(--accent); }
+
+    .step-header .back-link { margin-bottom: var(--space-lg); }
+
+    /* Risk grid */
+    .risk-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+      padding-bottom: var(--space-5xl);
+    }
+
+    .risk-card {
+      padding: var(--space-xl);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-bg);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .risk-card:hover {
+      border-color: var(--accent-soft);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .risk-card-emoji {
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-sm);
+      line-height: 1;
+    }
+
+    .risk-card-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 500;
+      font-size: var(--text-base);
+      margin-bottom: var(--space-xs);
+      line-height: var(--leading-tight);
+    }
+
+    .risk-card-desc {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      line-height: var(--leading-snug);
+      margin: 0;
+    }
+
+    .section-label {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-xs);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+    }
+
+    .risk-grid-label {
+      grid-column: 1 / -1;
+      margin-top: var(--space-2xl);
+      margin-bottom: var(--space-lg);
+    }
+
+
+    /* Diagnostic */
+    .diagnostic-container {
+      padding-bottom: var(--space-5xl);
+    }
+
+    .question-counter {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-xs);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+      margin-bottom: var(--space-lg);
+    }
+
+    .question-text {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-2xl);
+      font-weight: 500;
+      margin: 0 0 var(--space-xl);
+      line-height: var(--leading-snug);
+    }
+
+    .option-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .option-btn {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: var(--text-base);
+      padding: var(--space-lg) var(--space-xl);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-bg);
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      text-align: left;
+      line-height: var(--leading-snug);
+    }
+
+    .option-btn:hover {
+      border-color: var(--accent-soft);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .option-btn.selected {
+      border-color: var(--accent);
+      background: var(--accent-bg);
+    }
+
+    .progress-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-bottom: var(--space-2xl);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    /* Results */
+    .results-container {
+      padding-bottom: var(--space-5xl);
+    }
+
+    .result-risk-header {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-2xl);
+      padding-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .result-risk-emoji {
+      font-size: 2.5rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .result-risk-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-3xl);
+      font-weight: 500;
+      margin: 0 0 var(--space-xs);
+      line-height: var(--leading-tight);
+    }
+
+    .result-risk-desc {
+      color: var(--text-muted);
+      margin: 0;
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+    }
+
+    .common-signs,
+    .mitigations-section {
+      margin-bottom: var(--space-3xl);
+    }
+
+    .mitigations-section:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .common-signs h3,
+    .mitigations-section h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-xs);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+      margin: 0 0 var(--space-lg);
+    }
+
+    .signs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .signs-list li {
+      position: relative;
+      padding: var(--space-sm) 0 var(--space-sm) var(--space-xl);
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      line-height: var(--leading-normal);
+    }
+
+    .signs-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.75rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .mitigation-cards {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .mitigation-card {
+      padding: var(--space-xl);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-bg);
+      border-left: 3px solid var(--accent-soft);
+    }
+
+    .mitigation-card-name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 500;
+      font-size: var(--text-base);
+      margin-bottom: var(--space-xs);
+      line-height: var(--leading-tight);
+    }
+
+    .mitigation-card-desc {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      margin: 0 0 var(--space-sm);
+      line-height: var(--leading-normal);
+    }
+
+    .mitigation-card-time {
+      font-size: var(--text-xs);
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    .secondary-risk {
+      margin-top: var(--space-3xl);
+      padding: var(--space-xl);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      background: transparent;
+    }
+
+    .secondary-risk p {
+      margin: 0;
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      line-height: var(--leading-normal);
+    }
+
+    .secondary-risk-link {
+      color: var(--accent);
+      cursor: pointer;
+      border-bottom: 1px solid var(--accent-soft);
+      text-decoration: none;
+      font-weight: 500;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      padding: 0;
+    }
+
+    .secondary-risk-link:hover {
+      color: var(--text);
+    }
+
+    .results-footer {
+      margin-top: var(--space-4xl);
+      padding-top: var(--space-2xl);
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-lg);
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .results-footer-link {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .results-footer-link:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent-soft);
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--accent-soft);
+      outline-offset: 2px;
+    }
+
+    /* Footer */
+    footer {
+      padding: var(--space-2xl) 0;
+      border-top: 1px solid var(--border);
+    }
+
+    footer p {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    @media (max-width: 580px) {
+      .risk-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .intro {
+        padding: var(--space-4xl) 0 var(--space-4xl);
+      }
+
+      .result-risk-header {
+        flex-direction: column;
+        gap: var(--space-sm);
+      }
+
+      .results-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="wrap">
+      <a href="index.html" class="nav-back">&larr; Mike Lyngaas</a>
+      <a href="https://medium.com/p/5b4bc6164181" target="_blank" rel="noopener noreferrer">Read the article</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="wrap">
+
+      <!-- STEP: Intro -->
+      <div id="step-intro" class="step active">
+        <div class="intro">
+          <h1>Product Risk Advisor</h1>
+          <p class="subtitle">Identify the biggest risks to your product and get actionable tactics to mitigate them &mdash; before it's too late.</p>
+          <div class="intro-visual">
+            <div class="intro-visual-marquee" aria-hidden="true">
+              <div class="intro-visual-track">
+                <div class="intro-visual-pills">
+                  <span class="intro-risk-pill"><span>😬</span> Value</span>
+                  <span class="intro-risk-pill"><span>🕹️</span> Usability</span>
+                  <span class="intro-risk-pill"><span>📦</span> Distribution</span>
+                  <span class="intro-risk-pill"><span>💰</span> Pricing</span>
+                  <span class="intro-risk-pill"><span>🔧</span> Execution</span>
+                  <span class="intro-risk-pill"><span>👥</span> Multiplayer</span>
+                  <span class="intro-risk-pill"><span>👀</span> Copycat</span>
+                  <span class="intro-risk-pill"><span>📜</span> Compliance</span>
+                </div>
+                <div class="intro-visual-pills">
+                  <span class="intro-risk-pill"><span>😬</span> Value</span>
+                  <span class="intro-risk-pill"><span>🕹️</span> Usability</span>
+                  <span class="intro-risk-pill"><span>📦</span> Distribution</span>
+                  <span class="intro-risk-pill"><span>💰</span> Pricing</span>
+                  <span class="intro-risk-pill"><span>🔧</span> Execution</span>
+                  <span class="intro-risk-pill"><span>👥</span> Multiplayer</span>
+                  <span class="intro-risk-pill"><span>👀</span> Copycat</span>
+                  <span class="intro-risk-pill"><span>📜</span> Compliance</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="intro-actions">
+            <button class="btn btn-primary" onclick="showPickRisk()">I know my biggest risk</button>
+            <button class="btn" onclick="startDiagnostic()">Help me figure it out</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP: Pick a Risk -->
+      <div id="step-pick-risk" class="step">
+        <div class="step-header">
+          <button class="back-link" onclick="goToIntro()">&larr; Back</button>
+          <h2>Which risk worries you most?</h2>
+          <p>Pick the one that feels most dangerous to your product's success.</p>
+        </div>
+        <div class="risk-grid" id="risk-grid"></div>
+      </div>
+
+      <!-- STEP: Diagnostic -->
+      <div id="step-diagnostic" class="step">
+        <div class="step-header">
+          <button class="back-link" id="diagnostic-back">&larr; Back</button>
+        </div>
+        <div class="diagnostic-container">
+          <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+          <div class="question-counter" id="question-counter"></div>
+          <h2 class="question-text" id="question-text"></h2>
+          <div class="option-list" id="option-list"></div>
+        </div>
+      </div>
+
+      <!-- STEP: Results -->
+      <div id="step-results" class="step">
+        <div class="step-header">
+          <button class="back-link" onclick="showPickRisk()">&larr; View all risks</button>
+        </div>
+        <div class="results-container" id="results-container"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>&copy; 2026 Mike Lyngaas</p>
+    </div>
+  </footer>
+
+<script>
+const RISK_DATA = {
+  coreValue: {
+    name: "Core Value Risk",
+    emoji: "\u{1F62C}",
+    description: "The feature doesn't solve a real problem, or the solution isn't meaningfully better than the status quo.",
+    commonRisks: [
+      "Users try it one time and never use it again.",
+      "The solution is not a step function better than the status quo."
+    ],
+    mitigations: [
+      {
+        name: "Revisit fundamentals",
+        desc: "Crisp up your target audience and what you're solving for them. If you can't articulate the problem in one sentence, you're not ready to build.",
+        time: "1\u20132 days"
+      },
+      {
+        name: "Write the press release first",
+        desc: "Write an Amazon style PRFAQ: make sure the hook and \"so what?\" is dead simple for customers before building anything. If the press release isn't compelling, the product won't be either.",
+        time: "1 hour"
+      },
+      {
+        name: "Ask the magic wand question",
+        desc: "Ask prospects and customers: \"If you had a magic wand, how would [X painful process] work?\" Their answers reveal the real shape of the problem.",
+        time: "3-5 customer calls"
+      },
+      {
+        name: "Run alpha tests",
+        desc: "Test prototypes and scrappy v1s to measure value delivered prior to expensive building. Validate the core value loop before investing in polish.",
+        time: "1\u20132 weeks"
+      },
+      {
+        name: "Talk to people who rejected or churned",
+        desc: "Prospects who evaluated and passed, or users who left a competitor, reveal value gaps you can't see from current customers.",
+        time: "5\u201310 interviews"
+      }
+    ]
+  },
+  usability: {
+    name: "Usability Risk",
+    emoji: "\u{1F579}\u{FE0F}",
+    description: "Customers can't figure out how to use the product, hit friction early, or lose trust due to bugs.",
+    commonRisks: [
+      "Customers don't know how to set the feature up.",
+      "Customers hit a cold start or blank page problem.",
+      "Customers find it too complex or confusing.",
+      "Customers experience bugs erode trust."
+    ],
+    mitigations: [
+      {
+        name: "Measure time-to-value and clicks-to-value",
+        desc: "Count the literal steps from discovery to the first moment of value. Then ruthlessly reduce friction at each step.",
+        time: "2\u20133 days"
+      },
+      {
+        name: "Run small, targeted UXR",
+        desc: "Don't boil the ocean. Run focused usability studies on specific onboarding and activation workflows where you suspect drop-off.",
+        time: "3\u20135 days"
+      },
+      {
+        name: "Revisit UX first principles",
+        desc: "If you were designing this feature from scratch \u2014 no existing product surfaces, no UX debt \u2014 how would it work? Use this as a north star.",
+        time: "1-3 options"
+      },
+      {
+        name: "Run a detailed bug bash",
+        desc: "In addition to automated tests, run a hands-on bug bash to find the edge cases and paper cuts that erode customer trust.",
+        time: "1 hour"
+      }
+    ]
+  },
+  distribution: {
+    name: "Distribution Risk",
+    emoji: "\u{1F4E6}",
+    description: "Customers don't know the feature exists, don't think it's for them, or your GTM team isn't ready to sell it.",
+    commonRisks: [
+      "Customers aren't aware that the feature exists.",
+      "Customers don't think the feature is \"for them\" or understand its benefits.",
+      "Go-to-market team isn't prepared to market or sell it."
+    ],
+    mitigations: [
+    {
+        name: "Build in-product discovery surfaces",
+        desc: "Announcements, contextual tooltips, nudges in adjacent workflows. Don't rely solely on email or GTM to drive awareness \u2014 the product itself is your best distribution channel.",
+        time: "1\u20132 weeks"
+      },
+    {
+        name: "Simulate first-time use (FTU)",
+        desc: "Walk through the experience as a brand new user and as an existing user. Understand your \"hook\" \u2014 the moment that makes someone want to try it.",
+        time: "1 day"
+      },
+      {
+        name: "Nail down value props with GTM early",
+        desc: "Don't wait until launch week. Work with marketing and sales to articulate value props and test messaging as early as possible.",
+        time: "2\u20133 days"
+      },
+      {
+        name: "Run a bug bash with EPD and XFN",
+        desc: "Get cross-functional teammates hands-on with the product early. This builds familiarity, surfaces issues, and creates internal champions.",
+        time: "1 hour"
+      },
+      
+    ]
+  },
+  pricing: {
+    name: "Pricing Risk",
+    emoji: "\u{1F4B0}",
+    description: "Customers don't think the product is worth the cost, or pricing changes trigger backlash.",
+    commonRisks: [
+      "Customers don't think it's worth the cost.",
+      "Widespread community backlash to price increases."
+    ],
+    mitigations: [
+      {
+        name: "Partner with a customer advisory board",
+        desc: "Work with friendly customers and advisors to pressure-test your pricing strategy before it goes live. Their reactions will preview the market's.",
+        time: "2\u20134 weeks (ongoing)"
+      },
+      {
+        name: "Run willingness-to-pay exercises",
+        desc: "Use Van Westendorp or Gabor-Granger methods to understand price sensitivity. Know your ceiling before you set a number.",
+        time: "1\u20132 weeks"
+      },
+      {
+        name: "Prepare comms for best, worst, and middle case",
+        desc: "Write the customer email for each scenario. If the worst-case email makes you queasy, your pricing plan needs more work.",
+        time: "2\u20133 days"
+      }
+    ]
+  },
+  execution: {
+    name: "Execution Risk",
+    emoji: "\u{1F527}",
+    description: "Technical constraints, third-party dependencies, or performance limits threaten the product's viability.",
+    commonRisks: [
+      "Changes to 3rd party APIs, AI models, or services de-stabilize the feature.",
+      "Technical limitations threaten viability and force UX or capability trade-offs.",
+      "Performance thresholds can't be met."
+    ],
+    mitigations: [
+      {
+        name: "Build redundancies on key dependencies",
+        desc: "If you depend on a single vendor (e.g., one AI model), make your product compatible with alternatives. Don't let one partner's outage become your outage.",
+        time: "1\u20132 weeks"
+      },
+      {
+        name: "Build a Proof of Concept first",
+        desc: "Tackle the most technically challenging piece before anything else. A working PoC tells you whether the whole bet is viable.",
+        time: "1\u20132 weeks"
+      },
+      {
+        name: "Forecast outlier usage",
+        desc: "Ask \"what happens if one customer 100x's their usage?\" Simulate extreme load and edge cases on your systems before they happen in production.",
+        time: "2\u20133 days"
+      },
+      {
+        name: "De-risk the critical path first",
+        desc: "Sequence your roadmap around uncertainty, not ease. Work on the hardest, most uncertain piece first \u2014 don't save the scariest bet for last.",
+        time: "Ongoing (planning approach)"
+      }
+    ]
+  },
+  multiplayer: {
+    name: "Multiplayer Risk",
+    emoji: "\u{1F465}",
+    description: "Adoption requires multiple people to act \u2014 usually a buyer/admin to set it up and end users to adopt it \u2014 reducing your odds of activation.",
+    commonRisks: [
+      "User A (buyer/admin) must set up the feature before User B (end user) can get value.",
+      "Either side of the activation chain can drop off, killing adoption.",
+      "Awareness, setup, and value delivery are spread across different people."
+    ],
+    mitigations: [
+      {
+        name: "Map the full activation chain",
+        desc: "Document who does what, in what order, and where each person might drop off. You can't fix a funnel you haven't mapped.",
+        time: "1 day"
+      },
+      {
+        name: "Reduce setup burden on User A",
+        desc: "Make admin configuration dead simple or offer guided setup. Every extra step for the buyer is a chance for the chain to break.",
+        time: "1\u20132 weeks"
+      },
+      {
+        name: "Build pull mechanics for User B",
+        desc: "Give end users a reason to engage \u2014 notifications, shared value, visible benefit. Don't rely on admins to evangelize for you.",
+        time: "1\u20132 weeks"
+      },
+      {
+        name: "Consider a single-player fallback",
+        desc: "Can you deliver some value even if only one side has adopted? A product that works solo and shines with a team is easier to land.",
+        time: "1\u20132 weeks"
+      }
+    ]
+  },
+  copycat: {
+    name: "Copycat Risk",
+    emoji: "\u{1F440}",
+    description: "A competitor ships a newer or better version of your product and steals market share.",
+    commonRisks: [
+      "A competitor launches a similar feature with more resources.",
+      "Your differentiation erodes as the market matures.",
+      "Customers switch because alternatives are cheaper or bundled."
+    ],
+    mitigations: [
+      {
+        name: "Identify your defensible moat",
+        desc: "What's genuinely hard to replicate? Data, network effects, deep integrations, proprietary workflows. If the answer is \"nothing,\" you have a strategy problem.",
+        time: "1\u20132 days"
+      },
+      {
+        name: "Accelerate time-to-market",
+        desc: "Shrink your cycle time so you ship before competitors can react. Speed is a moat when your team can sustain it.",
+        time: "Ongoing (process change)"
+      },
+      {
+        name: "Build switching costs",
+        desc: "Integrations, workflows, and accumulated data that make it painful to leave. The best switching costs are ones customers are grateful for.",
+        time: "2\u20134 weeks"
+      }
+    ]
+  },
+  compliance: {
+    name: "Compliance Risk",
+    emoji: "\u{1F4DC}",
+    description: "New legislation or regulatory requirements threaten the viability of the product or its distribution.",
+    commonRisks: [
+      "New legislation threatens the product's viability.",
+      "Regulatory requirements differ across markets or regions.",
+      "Data handling or privacy rules constrain product capabilities."
+    ],
+    mitigations: [
+      {
+        name: "Engage legal and compliance stakeholders early",
+        desc: "Don't wait until the product is built to ask \"is this allowed?\" Loop in legal during the design phase, not the launch phase.",
+        time: "1\u20132 days"
+      },
+      {
+        name: "Design for configurability",
+        desc: "Make it easy to toggle features, data handling, or distribution by region or regulation. Flexibility now saves painful rework later.",
+        time: "2\u20134 weeks"
+      },
+      {
+        name: "Build audit trails and data controls from day one",
+        desc: "Logging, consent management, and data export capabilities are exponentially harder to bolt on after launch.",
+        time: "2\u20134 weeks"
+      }
+    ]
+  }
+};
+
+const DIAGNOSTIC_QUESTIONS = [
+  {
+    question: "Where are you in the product process?",
+    options: [
+      { label: "Problem shaping \u2014 we're still choosing or defining the problem to solve", scores: { coreValue: 4, pricing: 1 } },
+      { label: "Solution shaping \u2014 we're designing the solution (before or early in build)", scores: { coreValue: 2, usability: 3, execution: 1 } },
+      { label: "Building \u2014 we're actively building", scores: { execution: 3, usability: 2, coreValue: 1 } },
+      { label: "Launched \u2014 we're live in market", scores: { distribution: 3, pricing: 2, usability: 1 } }
+    ]
+  },
+  {
+    question: "What keeps you up at night?",
+    options: [
+      { label: "Customers won't actually want this", scores: { coreValue: 5 } },
+      { label: "Users won't be able to figure it out", scores: { usability: 5 } },
+      { label: "Nobody will know about it or try it", scores: { distribution: 5 } },
+      { label: "Customers won't pay enough for it", scores: { pricing: 5 } },
+      { label: "We can't build it reliably", scores: { execution: 5 } },
+      { label: "A competitor will beat us to it", scores: { copycat: 5 } }
+    ]
+  },
+  {
+    question: "How many people need to take action for your product to deliver value?",
+    options: [
+      { label: "Just the end user \u2014 they sign up and get value directly", scores: {} },
+      { label: "An admin sets it up, then end users adopt it", scores: { multiplayer: 4, distribution: 1 } },
+      { label: "Multiple teams or stakeholders need to coordinate", scores: { multiplayer: 5, distribution: 2 } }
+    ]
+  }
+];
+
+const RISK_ORDER = ["coreValue", "usability", "distribution", "pricing", "execution"];
+const NICHE_RISK_ORDER = ["multiplayer", "copycat", "compliance"];
+
+let diagnosticScores = {};
+let currentQuestion = 0;
+
+function showStep(stepId) {
+  document.querySelectorAll('.step').forEach(s => {
+    s.classList.remove('active', 'visible');
+  });
+  const step = document.getElementById(stepId);
+  step.classList.add('active');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      step.classList.add('visible');
+    });
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToIntro() {
+  diagnosticScores = {};
+  currentQuestion = 0;
+  showStep('step-intro');
+}
+
+function showPickRisk() {
+  renderRiskGrid();
+  showStep('step-pick-risk');
+}
+
+function renderRiskGrid() {
+  const grid = document.getElementById('risk-grid');
+  let html = '';
+
+  RISK_ORDER.forEach(key => {
+    const r = RISK_DATA[key];
+    html += riskCardHTML(key, r);
+  });
+
+  html += '<div class="risk-grid-label section-label">Niche risks</div>';
+
+  NICHE_RISK_ORDER.forEach(key => {
+    const r = RISK_DATA[key];
+    html += riskCardHTML(key, r);
+  });
+
+  grid.innerHTML = html;
+}
+
+function riskCardHTML(key, r) {
+  return `<div class="risk-card" onclick="showResults('${key}')">
+    <div class="risk-card-emoji">${r.emoji}</div>
+    <div class="risk-card-name">${r.name}</div>
+    <p class="risk-card-desc">${r.description}</p>
+  </div>`;
+}
+
+function startDiagnostic() {
+  diagnosticScores = {};
+  currentQuestion = 0;
+  renderQuestion();
+  showStep('step-diagnostic');
+
+  const backBtn = document.getElementById('diagnostic-back');
+  backBtn.onclick = () => {
+    if (currentQuestion > 0) {
+      currentQuestion--;
+      renderQuestion();
+    } else {
+      goToIntro();
+    }
+  };
+}
+
+function renderQuestion() {
+  const q = DIAGNOSTIC_QUESTIONS[currentQuestion];
+  const total = DIAGNOSTIC_QUESTIONS.length;
+
+  document.getElementById('progress-fill').style.width = ((currentQuestion) / total * 100) + '%';
+  document.getElementById('question-counter').textContent = `Question ${currentQuestion + 1} of ${total}`;
+  document.getElementById('question-text').textContent = q.question;
+
+  const list = document.getElementById('option-list');
+  list.innerHTML = q.options.map((opt, i) =>
+    `<button class="option-btn" onclick="selectOption(${i})">${opt.label}</button>`
+  ).join('');
+}
+
+function selectOption(optIndex) {
+  const q = DIAGNOSTIC_QUESTIONS[currentQuestion];
+  const opt = q.options[optIndex];
+
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach(b => b.classList.remove('selected'));
+  buttons[optIndex].classList.add('selected');
+
+  Object.entries(opt.scores).forEach(([key, val]) => {
+    diagnosticScores[key] = (diagnosticScores[key] || 0) + val;
+  });
+
+  setTimeout(() => {
+    currentQuestion++;
+    if (currentQuestion < DIAGNOSTIC_QUESTIONS.length) {
+      renderQuestion();
+    } else {
+      document.getElementById('progress-fill').style.width = '100%';
+      const sorted = Object.entries(diagnosticScores).sort((a, b) => b[1] - a[1]);
+      const topRisk = sorted[0] ? sorted[0][0] : 'coreValue';
+      const secondRisk = sorted[1] && sorted[1][1] > 2 ? sorted[1][0] : null;
+      showResults(topRisk, secondRisk);
+    }
+  }, 250);
+}
+
+function showResults(riskKey, secondaryKey) {
+  const risk = RISK_DATA[riskKey];
+  const container = document.getElementById('results-container');
+
+  let html = `
+    <div class="result-risk-header">
+      <div class="result-risk-emoji">${risk.emoji}</div>
+      <div>
+        <h2 class="result-risk-name">${risk.name}</h2>
+        <p class="result-risk-desc">${risk.description}</p>
+      </div>
+    </div>
+
+    <div class="common-signs">
+      <h3>Common signs</h3>
+      <ul class="signs-list">
+        ${risk.commonRisks.map(r => `<li>${r}</li>`).join('')}
+      </ul>
+    </div>
+
+    <div class="mitigations-section">
+      <h3>How to mitigate this early</h3>
+      <div class="mitigation-cards">
+        ${risk.mitigations.map(m => `
+          <div class="mitigation-card">
+            <div class="mitigation-card-name">${m.name}</div>
+            <p class="mitigation-card-desc">${m.desc}</p>
+            <div class="mitigation-card-time">${m.time}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  if (secondaryKey && secondaryKey !== riskKey) {
+    const sec = RISK_DATA[secondaryKey];
+    html += `
+      <div class="secondary-risk">
+        <p>You may also want to watch for <strong>${sec.emoji} ${sec.name}</strong> &mdash; ${sec.description.charAt(0).toLowerCase() + sec.description.slice(1)}
+        <br><button class="secondary-risk-link" onclick="showResults('${secondaryKey}')">View mitigations &rarr;</button></p>
+      </div>
+    `;
+  }
+
+  html += `
+    <div class="results-footer">
+      <button class="back-link" onclick="goToIntro()">&larr; Start over</button>
+      <button class="back-link" onclick="showPickRisk()">View all risks</button>
+      <a class="results-footer-link" href="https://medium.com/p/5b4bc6164181" target="_blank" rel="noopener noreferrer">Read the full Product Risk Cheatsheet &rarr;</a>
+    </div>
+  `;
+
+  container.innerHTML = html;
+  showStep('step-results');
+}
+
+renderRiskGrid();
+document.getElementById('step-intro').classList.add('visible');
+</script>
+</body>
+</html>

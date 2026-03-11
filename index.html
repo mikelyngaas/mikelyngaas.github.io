@@ -11,212 +11,179 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #faf9f7;
-      --text: #1c1c1c;
-      --text-muted: #5c5c5c;
-      --accent: #8b6914;
-      --accent-soft: #c4a84a;
-      --border: #e8e6e3;
+      --bg: #f7f5f1;
+      --text: #1a1a1a;
+      --text-muted: #4a4a4a;
+      --text-light: #6b6b6b;
+      --accent: #e86b58;
+      --accent-soft: #f08d7d;
+      --border: #e2dfda;
+      --card-bg: #ffffff;
+      --radius: 0.5rem;
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 0.75rem;
+      --space-lg: 1rem;
+      --space-xl: 1.5rem;
+      --space-2xl: 2rem;
+      --space-3xl: 2.5rem;
+      --text-xs: 0.75rem;
+      --text-sm: 0.875rem;
+      --text-base: 1rem;
+      --text-lg: 1.125rem;
+      --text-xl: 1.25rem;
+      --text-2xl: 1.5rem;
+      --text-hero: clamp(2rem, 4vw, 2.75rem);
+      --leading-tight: 1.25;
+      --leading-normal: 1.55;
+      --leading-relaxed: 1.65;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       font-family: 'Source Serif 4', Georgia, serif;
-      font-size: 1.125rem;
-      line-height: 1.65;
+      font-size: var(--text-base);
+      line-height: var(--leading-relaxed);
       color: var(--text);
       background: var(--bg);
       -webkit-font-smoothing: antialiased;
     }
 
-    .wrap {
-      max-width: 42rem;
+    /* ---- Bento grid ---- */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-areas:
+        "portrait hero   hero"
+        "build    help   help"
+        "prev     prev   prev"
+        "proof    proof  proof"
+        "connect  connect connect";
+      gap: var(--space-lg);
+      max-width: 60rem;
       margin: 0 auto;
-      padding: 0 1.5rem;
+      padding: var(--space-2xl) var(--space-xl) var(--space-xl);
     }
 
-    /* Header / Hero */
-    header {
-      padding: 4rem 0 1rem;
-      min-height: 20vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    /* ---- Card base ---- */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: var(--space-xl);
+      border: 1px solid var(--border);
     }
 
-    nav {
-      position: sticky;
-      top: 0;
-      padding: 1.5rem 0;
-      background: var(--bg);
-      z-index: 10;
-      border-bottom: 1px solid var(--border);
-    }
-
-    nav .wrap {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1.75rem;
-    }
-
-    nav a {
-      font-family: 'Source Serif 4', Georgia, serif;
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    nav a:hover {
-      color: var(--accent);
-    }
-
-    h1 {
+    .card-label {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: clamp(2.25rem, 5vw, 3rem);
+      font-size: var(--text-xs);
       font-weight: 500;
-      letter-spacing: -0.02em;
-      margin: 0 0 0.5rem;
-      line-height: 1.15;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: var(--space-lg);
     }
 
-    .hero-portrait {
-      max-width: 10rem;
-      height: auto;
-      object-fit: contain;
-      border-radius: 1rem;
-      margin-bottom: 1.25rem;
+    /* ---- Grid area assignments ---- */
+    .card-portrait   { grid-area: portrait; }
+    .card-hero       { grid-area: hero; }
+    .card-build      { grid-area: build; }
+    .card-help       { grid-area: help; }
+    .card-proof      { grid-area: proof; }
+    .card-connect    { grid-area: connect; }
+    .card-previously { grid-area: prev; }
+
+    /* ---- Portrait ---- */
+    .card-portrait {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .card-portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
       mix-blend-mode: multiply;
     }
 
+    /* ---- Hero (name + tagline + current role) ---- */
+    .card-hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-2xl);
+    }
+
+    .card-hero h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-hero);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin: 0 0 var(--space-sm);
+      line-height: var(--leading-tight);
+    }
+
     .tagline {
-      font-size: 1.25rem;
+      font-size: var(--text-lg);
       font-style: italic;
       color: var(--text-muted);
-      margin: 0 0 0.5rem;
+      margin: 0 0 var(--space-xl);
+      line-height: var(--leading-normal);
     }
 
-    /* Sections */
-    section {
-      padding: 2rem 0;
-      border-top: 1px solid var(--border);
-      scroll-margin-top: 4rem;
+    .card-hero .current-role {
+      border-top: 1px solid var(--accent);
+      padding-top: var(--space-lg);
+      margin-top: auto;
     }
 
-    section:first-of-type {
-      border-top: none;
-    }
-
-    h2 {
+    .card h2 {
       font-family: 'Fraunces', Georgia, serif;
-      font-size: 1.125rem;
+      font-size: var(--text-2xl);
       font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-muted);
-      margin: 0 0 1.75rem;
+      margin: 0 0 var(--space-xs);
+      line-height: var(--leading-tight);
     }
 
-    /* Work */
-    .role {
-      margin-bottom: 1.5rem;
-    }
-
-    .role:last-child {
-      margin-bottom: 0;
-    }
-
-    .role-title {
+    .card h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-lg);
       font-weight: 500;
-      color: var(--text);
+      margin: 0 0 var(--space-xs);
+      line-height: var(--leading-tight);
     }
 
-    .role-company {
+    .role-at {
       color: var(--text-muted);
-      font-size: 1rem;
+      font-size: var(--text-sm);
+      margin: 0;
     }
 
-    .role-company a {
-      color: var(--text-muted);
+    .role-at a {
+      color: inherit;
       text-decoration: none;
       border-bottom: 1px solid var(--border);
       transition: color 0.2s, border-color 0.2s;
     }
 
-    .role-company a:hover {
+    .role-at a:hover {
       color: var(--accent);
       border-bottom-color: var(--accent-soft);
     }
 
     .role-desc {
-      font-size: 0.95rem;
+      font-size: var(--text-sm);
       color: var(--text-muted);
-      margin-top: 0.25rem;
+      margin: var(--space-xs) 0 0;
+      line-height: var(--leading-normal);
     }
 
-    .work-group {
-      margin-bottom: 2.25rem;
-    }
-
-    .work-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .work-group h3 {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      margin: 0 0 1rem;
-    }
-
-    /* Collapsible Previously */
-    details.work-group {
-      margin-bottom: 0;
-    }
-
-    details.work-group summary {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      cursor: pointer;
-      list-style: none;
-      margin: 0 0 1rem;
-    }
-
-    details.work-group summary::-webkit-details-marker {
-      display: none;
-    }
-
-    details.work-group summary::after {
-      content: ' +';
-      font-family: 'Source Serif 4', Georgia, serif;
-    }
-
-    details[open].work-group summary::after {
-      content: ' −';
-    }
-
-    details[open].work-group summary {
-      margin-bottom: 1rem;
-    }
-
-    details.work-group .role:first-of-type {
-      padding-top: 0;
-    }
-
-    /* Writing */
+    /* ---- Writing ---- */
     .writing-list {
       list-style: none;
       padding: 0;
@@ -224,17 +191,19 @@
     }
 
     .writing-list li {
-      padding: 0.6rem 0;
+      padding: 0 0 var(--space-sm);
       border-bottom: 1px solid var(--border);
     }
 
     .writing-list li:last-child {
       border-bottom: none;
+      padding-bottom: 0;
     }
 
     .writing-list a {
       color: var(--text);
       text-decoration: none;
+      font-size: var(--text-sm);
       border-bottom: 1px solid transparent;
       transition: color 0.2s, border-color 0.2s;
     }
@@ -244,169 +213,382 @@
       border-bottom-color: var(--accent-soft);
     }
 
-    /* Contact */
-    .contact-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    /* ---- Side projects ---- */
+    .card-build {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
 
-    .contact-list li {
-      padding: 0.5rem 0;
+    .card-build .project {
+      margin-bottom: var(--space-xl);
     }
 
-    .contact-list a {
+    .card-build .project:last-child {
+      margin-bottom: 0;
+    }
+
+    .project-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-xl);
+      font-weight: 500;
       color: var(--text);
       text-decoration: none;
       border-bottom: 1px solid var(--border);
       transition: color 0.2s, border-color 0.2s;
     }
 
-    .contact-list a:hover {
+    .project-title:hover {
       color: var(--accent);
       border-bottom-color: var(--accent-soft);
     }
 
-    /* Links open in new tab - already in HTML; ensure focus style */
-    a[target="_blank"]:focus {
+    .project-desc {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      margin: var(--space-xs) 0 0;
+      line-height: var(--leading-normal);
+    }
+
+    .project-placeholder {
+      cursor: default;
+      border-bottom: none;
+      color: var(--text-light);
+    }
+
+    .project-placeholder:hover {
+      color: var(--text-light);
+      border-bottom: none;
+    }
+
+    /* ---- Side gigs (coach + mentor) ---- */
+    .card-help {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .card-help .help-intro {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      margin: 0 0 var(--space-lg);
+      line-height: var(--leading-normal);
+    }
+
+    .card-help .help-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .card-help .help-item {
+      padding-bottom: var(--space-xl);
+    }
+
+    .card-help .help-item:last-child {
+      padding-bottom: 0;
+    }
+
+    /* ---- Connect ---- */
+    .card-connect {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .contact-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-lg);
+    }
+
+    .contact-list a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: var(--text-sm);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      transition: color 0.2s;
+    }
+
+    .contact-list a:hover { color: var(--accent); }
+
+    .contact-list svg {
+      width: 1rem;
+      height: 1rem;
+      flex-shrink: 0;
+      fill: currentColor;
+    }
+
+    /* ---- Previously (collapsible) ---- */
+    .card-previously summary {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .card-previously summary::-webkit-details-marker { display: none; }
+
+    .card-previously .prev-teaser {
+      font-size: var(--text-sm);
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--text-muted);
+    }
+
+    .card-previously[open] .prev-teaser {
+      display: none;
+    }
+
+    .card-previously summary::after {
+      content: ' +';
+      font-family: 'Source Serif 4', Georgia, serif;
+    }
+
+    .card-previously[open] summary::after {
+      content: ' −';
+    }
+
+    .prev-roles {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-lg) var(--space-xl);
+      margin-top: var(--space-lg);
+    }
+
+    .prev-roles .role-title {
+      font-weight: 500;
+      font-size: var(--text-sm);
+    }
+
+    .prev-roles .role-desc {
+      font-size: var(--text-xs);
+      margin-top: var(--space-xs);
+    }
+
+    /* ---- Shared ---- */
+    a:focus-visible {
       outline: 2px solid var(--accent-soft);
       outline-offset: 2px;
     }
 
     footer {
-      padding: 2rem 0;
-      border-top: 1px solid var(--border);
+      max-width: 60rem;
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-xl) var(--space-2xl);
     }
 
     footer p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
+      font-size: var(--text-sm);
+      color: var(--text-light);
       margin: 0;
     }
 
-    @media (max-width: 480px) {
-      header {
-        padding: 3rem 0 2rem;
-        min-height: 50vh;
+    /* ---- Card animations ---- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease-out, transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card.visible:not(.card-previously):hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    /* ---- Responsive ---- */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .bento {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+          "portrait hero"
+          "build    help"
+          "prev     prev"
+          "proof    proof"
+          "connect  connect";
+      }
+    }
+
+    @media (max-width: 768px) {
+      .bento {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "hero"
+          "portrait"
+          "build"
+          "help"
+          "prev"
+          "proof"
+          "connect";
+        padding: var(--space-lg);
       }
 
-      nav {
-        padding: 1rem 0;
+      .card-portrait {
+        padding: var(--space-xl);
+        display: flex;
+        justify-content: center;
+        background: var(--accent);
       }
 
-      nav .wrap {
-        justify-content: flex-start;
-        gap: 1.25rem;
+      .card-portrait img {
+        width: auto;
+        height: auto;
+        max-height: 10rem;
+        max-width: 10rem;
+        border-radius: var(--radius);
+        object-fit: contain;
       }
 
-      section {
-        padding: 2rem 0;
-      }
+      .card-hero { padding: var(--space-xl); }
+      .prev-roles { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <nav>
-    <div class="wrap">
-      <a href="#work">Work</a>
-      <a href="#writing">Writing</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
 
-  <header>
-    <div class="wrap">
-      <img src="assets/mike-portrait-sf-v2.png" alt="Mike Lyngaas" class="hero-portrait">
+  <main class="bento">
+    <div class="card card-portrait">
+      <img src="assets/mike-portrait-sf-v2.png" alt="Mike Lyngaas">
+    </div>
+
+    <div class="card card-hero">
       <h1>Mike Lyngaas</h1>
       <p class="tagline">I like building products that solve meaningful problems for people, their businesses, and families.</p>
-    </div>
-  </header>
-
-  <main>
-    <section id="work">
-      <div class="wrap">
-        <h2>Work</h2>
-
-        <div class="work-group">
-        <h3>Currently</h3>
-        <div class="role">
-          <span class="role-title">Head of Product</span> at <span class="role-company"><a href="https://www.unifygtm.com" target="_blank" rel="noopener noreferrer">Unify</a></span>
-          <p class="role-desc">Building the future of outbound.</p>
-        </div>
-        <div class="role">
-          <span class="role-title">PM Coach</span> at <span class="role-company"><a href="https://www.rocketblocks.me/contributors/mike-lyngaas.php" target="_blank" rel="noopener noreferrer">Rocketblocks</a></span>
-          <p class="role-desc">Coaching aspiring and early-career PMs.</p>
-        </div>
-        <div class="role">
-          <span class="role-title">Mentor</span> at <span class="role-company"><a href="https://fasttrack.firstround.com/" target="_blank" rel="noopener noreferrer">First Round</a></span>
-          <p class="role-desc">Supporting founders & operators in the First Round network.</p>
-        </div>
+      <div class="current-role">
+        <span class="card-label">Currently</span>
+        <h2>Head of Product</h2>
+        <p class="role-at">at <a href="https://www.unifygtm.com" target="_blank" rel="noopener noreferrer">Unify</a></p>
+        <p class="role-desc">Building the future of outbound.</p>
       </div>
+    </div>
 
-      <details class="work-group">
-        <summary>Previously</summary>
+    <div class="card card-build">
+      <span class="card-label">Side projects</span>
+      <div class="project">
+        <a href="risk.html" class="project-title">Product Risk Advisor</a>
+        <p class="project-desc">Identify the biggest risks to your product and get actionable tactics to mitigate them early.</p>
+      </div>
+      <div class="project">
+        <span class="project-title project-placeholder">More coming soon</span>
+        <p class="project-desc">Another build in the works.</p>
+      </div>
+    </div>
+
+    <div class="card card-help">
+      <span class="card-label">Side gigs</span>
+      <ul class="help-list">
+        <li class="help-item">
+          <h3>PM Coach</h3>
+          <p class="role-at">at <a href="https://www.rocketblocks.me/contributors/mike-lyngaas.php" target="_blank" rel="noopener noreferrer">Rocketblocks</a></p>
+          <p class="role-desc">Coaching aspiring and early-career PMs.</p>
+        </li>
+        <li class="help-item">
+          <h3>Mentor</h3>
+          <p class="role-at">at <a href="https://fasttrack.firstround.com/" target="_blank" rel="noopener noreferrer">First Round</a></p>
+          <p class="role-desc">Supporting founders & operators in the First Round network.</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card card-proof">
+      <span class="card-label">Writing</span>
+      <ul class="writing-list">
+        <li><a href="https://medium.com/@mikelyngaas/an-ai-agent-wishlist-fc57a63b7f15" target="_blank" rel="noopener noreferrer">An AI Agent Wishlist</a></li>
+        <li><a href="https://medium.com/p/5b4bc6164181" target="_blank" rel="noopener noreferrer">The Product Risk Cheatsheet</a></li>
+        <li><a href="https://www.rocketblocks.me/blog/interviewing-product-managers.php" target="_blank" rel="noopener noreferrer">How to Interview Product Managers</a></li>
+        <li><a href="https://www.rocketblocks.me/blog/product-strategy.php" target="_blank" rel="noopener noreferrer">Introduction to Product Strategy</a></li>
+        <li><a href="https://medium.com/@mikelyngaas/perplexity-vs-google-search-a-totally-unscientific-comparison-9a58837d7a69" target="_blank" rel="noopener noreferrer">Perplexity vs. Google Search</a></li>
+        <li><a href="https://medium.com/@mikelyngaas/defining-your-pm-superpower-7d24141116b9" target="_blank" rel="noopener noreferrer">Defining your PM Superpower</a></li>
+      </ul>
+    </div>
+
+    <details class="card card-previously">
+      <summary>Previously <span class="prev-teaser">— Webflow, Gusto, and ad tech startups</span></summary>
+      <div class="prev-roles">
         <div class="role">
-          <span class="role-title">Head of Enterprise & Collaboration Product</span> at <span class="role-company"><a href="https://webflow.com" target="_blank" rel="noopener noreferrer">Webflow</a></span>
-          <p class="role-desc">Overhauled Webflow from a single-player to collaborative product and 5x'd the teams customers on Webflow.</p>
+          <span class="role-title">Head of Enterprise & Collaboration Product</span>
+          <p class="role-at">at <a href="https://webflow.com" target="_blank" rel="noopener noreferrer">Webflow</a></p>
+          <p class="role-desc">Collaborative product; 5x'd teams on Webflow.</p>
         </div>
         <div class="role">
-          <span class="role-title">Product at <span class="role-company"><a href="https://gusto.com" target="_blank" rel="noopener noreferrer">Gusto</a></span></span>
-          <p class="role-desc">Led Accountants product (~30% of revenue), app integrations, and data tools.</p>
+          <span class="role-title">Product</span>
+          <p class="role-at">at <a href="https://gusto.com" target="_blank" rel="noopener noreferrer">Gusto</a></p>
+          <p class="role-desc">Accountants product, integrations, data tools.</p>
         </div>
         <div class="role">
           <span class="role-title">PM at Interclick / Yahoo</span>
-          <p class="role-desc">Built ad platforms (DSP, native, mobile, search); Interclick was acquired by Yahoo.</p>
+          <p class="role-desc">Ad platforms (DSP, native, mobile); Interclick acquired by Yahoo.</p>
         </div>
         <div class="role">
-          <span class="role-title">Data scientist</span> at Ad Tech startups.
-          <p class="role-desc">Build models to predict ad performance and figured out what to do with my life.</p>
+          <span class="role-title">Data scientist at Ad Tech startups</span>
+          <p class="role-desc">Ad performance models; moved into product.</p>
         </div>
-      </details>
       </div>
-    </section>
+    </details>
 
-    <section id="writing">
-      <div class="wrap">
-        <h2>Writing</h2>
-        <ul class="writing-list">
-          <li><a href="https://medium.com/@mikelyngaas/an-ai-agent-wishlist-fc57a63b7f15" target="_blank" rel="noopener noreferrer">An AI Agent Wishlist</a></li>
-          <li><a href="https://medium.com/p/5b4bc6164181" target="_blank" rel="noopener noreferrer">The Product Risk Cheatsheet</a></li>
-          <li><a href="https://www.rocketblocks.me/blog/interviewing-product-managers.php" target="_blank" rel="noopener noreferrer">How to Interview Product Managers</a></li>
-          <li><a href="https://www.rocketblocks.me/blog/product-strategy.php" target="_blank" rel="noopener noreferrer">Introduction to Product Strategy</a></li>
-          <li><a href="https://medium.com/@mikelyngaas/perplexity-vs-google-search-a-totally-unscientific-comparison-9a58837d7a69" target="_blank" rel="noopener noreferrer">Perplexity vs. Google Search</a></li>
-          <li><a href="https://medium.com/@mikelyngaas/defining-your-pm-superpower-7d24141116b9" target="_blank" rel="noopener noreferrer">Defining your PM Superpower</a></li>
-          
-        </ul>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="wrap">
-        <h2>Contact</h2>
-        <ul class="contact-list">
-          <li><a href="mailto:mlyngaas777@gmail.com" target="_blank" rel="noopener noreferrer">mlyngaas777 [at] gmail [dotcom]</a></li>
-          <li><a href="https://www.linkedin.com/in/mikelyngaas/" target="_blank" rel="noopener noreferrer">linkedin.com/in/mikelyngaas</a></li>
-          <li><a href="https://twitter.com/MikeLyngaas" target="_blank" rel="noopener noreferrer">@MikeLyngaas (Twitter)</a></li>
-          <li><a href="https://medium.com/@mikelyngaas" target="_blank" rel="noopener noreferrer">@mikelyngaas (Medium)</a></li>
-        </ul>
-      </div>
-    </section>
+    <div class="card card-connect">
+      <span class="card-label">Connect</span>
+      <ul class="contact-list">
+        <li><a id="em" href="#"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg><span>loading…</span></a></li>
+        <li><a href="https://www.linkedin.com/in/mikelyngaas/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>LinkedIn</a></li>
+        <li><a href="https://twitter.com/MikeLyngaas" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter</a></li>
+        <li><a href="https://medium.com/@mikelyngaas" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>Medium</a></li>
+      </ul>
+    </div>
   </main>
 
   <footer>
-    <div class="wrap">
-      <p>&copy; 2026 Mike Lyngaas</p>
-    </div>
+    <p>&copy; 2026 Mike Lyngaas</p>
   </footer>
 
   <script>
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
+    // Assemble email at runtime so it's never in the HTML source
+    (function() {
+      var u = 'mlyngaas777', d = 'gmail.com';
+      var el = document.getElementById('em');
+      el.href = 'mail' + 'to:' + u + '@' + d;
+      el.querySelector('span').textContent = u + '@' + d;
+    })();
+
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((card, i) => {
+      card.classList.add('fade-in');
+      card.style.transitionDelay = `${i * 0.07}s`;
     });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => observer.observe(card));
   </script>
 </body>
 </html>
