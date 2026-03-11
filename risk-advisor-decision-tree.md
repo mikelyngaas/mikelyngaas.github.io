@@ -1,4 +1,4 @@
-# Product Risk Advisor — Full Decision Tree
+# Feature Risk Mitigator — Full Decision Tree
 
 Reference document for the logic and content powering [risk.html](risk.html). Source: [The Product Risk Cheatsheet](https://medium.com/p/5b4bc6164181).
 
@@ -8,7 +8,7 @@ Reference document for the logic and content powering [risk.html](risk.html). So
 
 ```
                     ┌─────────────────────────┐
-                    │   Product Risk Advisor  │
+                    │   Feature Risk Mitigator  │
                     │        (Intro)          │
                     └───────────┬────────────┘
                                 │
