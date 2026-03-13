@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="pmOS — A modular artifact system that turns Cursor or Claude into a product development partner. By Mike Lyngaas.">
+  <title>pmOS — Mike Lyngaas</title>
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mikelyngaas.github.io/pages/pmos.html">
+  <meta property="og:title" content="pmOS — Mike Lyngaas">
+  <meta property="og:description" content="A modular artifact system that turns Cursor or Claude into a product development partner.">
+  <meta property="og:site_name" content="Mike Lyngaas">
+  <meta property="og:locale" content="en_US">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="pmOS — Mike Lyngaas">
+  <meta name="twitter:description" content="A modular artifact system that turns Cursor or Claude into a product development partner.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231c1c1c'/><text x='16' y='22' font-family='Georgia,serif' font-size='16' font-weight='bold' fill='%23faf9f7' text-anchor='middle'>ML</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f5f1;
+      --text: #1a1a1a;
+      --text-muted: #4a4a4a;
+      --text-light: #6b6b6b;
+      --accent: #e86b58;
+      --accent-soft: #f08d7d;
+      --accent-bg: #fef5f4;
+      --border: #e2dfda;
+      --card-bg: #ffffff;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+      --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.06);
+      --code-bg: #f0eeeb;
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 0.75rem;
+      --space-lg: 1rem;
+      --space-xl: 1.5rem;
+      --space-2xl: 2rem;
+      --space-3xl: 2.5rem;
+      --space-4xl: 3rem;
+      --space-5xl: 4rem;
+      --text-xs: 0.75rem;
+      --text-sm: 0.875rem;
+      --text-base: 1rem;
+      --text-lg: 1.125rem;
+      --text-xl: 1.25rem;
+      --text-2xl: 1.5rem;
+      --text-3xl: clamp(1.5rem, 3.5vw, 2rem);
+      --text-hero: clamp(2.25rem, 5vw, 3rem);
+      --leading-tight: 1.25;
+      --leading-snug: 1.4;
+      --leading-normal: 1.55;
+      --leading-relaxed: 1.65;
+      --radius: 0.5rem;
+      --radius-lg: 0.625rem;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: var(--text-base);
+      line-height: var(--leading-relaxed);
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 0 var(--space-xl);
+    }
+
+    /* Nav */
+    nav {
+      padding: var(--space-xl) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--accent); }
+
+    .nav-back { display: flex; align-items: center; gap: var(--space-xs); }
+
+    /* Hero */
+    .pmos-hero {
+      padding: var(--space-5xl) 0 var(--space-4xl);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pmos-hero h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-hero);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin: 0 0 var(--space-xl);
+      line-height: var(--leading-tight);
+    }
+
+    .pmos-hero .tagline,
+    .pmos-hero p {
+      font-size: var(--text-base);
+      color: var(--text);
+      margin: 0 0 var(--space-lg);
+      line-height: var(--leading-normal);
+    }
+
+    .pmos-hero .tagline { font-style: italic; color: var(--text-muted); }
+    .pmos-hero p:last-of-type { margin-bottom: var(--space-2xl); }
+    .pmos-hero-list { margin: 0 0 var(--space-lg); padding-left: 1.25rem; }
+    .pmos-hero-list li { margin-bottom: var(--space-md); line-height: var(--leading-normal); }
+    .pmos-hero-list ul { margin: var(--space-sm) 0 0; padding-left: 1.25rem; list-style-type: circle; }
+    .pmos-hero-list ul li { margin-bottom: var(--space-xs); }
+    .pmos-hero .section-label { margin-top: var(--space-xl); margin-bottom: var(--space-sm); }
+    .pmos-hero-intro { margin: 0 0 var(--space-lg); }
+
+    /* Single primary button style */
+    .btn {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: var(--text-base);
+      padding: var(--space-md) var(--space-xl);
+      border: 1px solid var(--text);
+      border-radius: var(--radius);
+      background: var(--text);
+      color: var(--bg);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      text-decoration: none;
+      line-height: var(--leading-snug);
+    }
+
+    .btn:hover {
+      background: #333;
+      border-color: #333;
+      color: var(--bg);
+    }
+
+    /* Hero CTA: button + clone snippet */
+    .hero-cta {
+      margin-bottom: var(--space-2xl);
+    }
+    .hero-cta .btn { margin-bottom: var(--space-lg); }
+    .clone-snippet {
+      position: relative;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-md) var(--space-xl);
+      padding-right: 5rem;
+      font-family: ui-monospace, 'SF Mono', monospace;
+      font-size: var(--text-sm);
+      line-height: 1.5;
+      color: var(--text);
+    }
+    .clone-snippet__copy {
+      position: absolute;
+      top: var(--space-md);
+      right: var(--space-md);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: var(--text-xs);
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .clone-snippet__copy:hover {
+      color: var(--accent);
+      border-color: var(--accent-soft);
+    }
+    .clone-snippet__copy.copied {
+      color: var(--text);
+      border-color: var(--text);
+    }
+
+    /* Section label — aligns with site card-label (eyebrow) */
+    .section-label {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-xs);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: var(--space-sm);
+    }
+
+    /* Content sections */
+    .pmos-section {
+      padding: var(--space-4xl) 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pmos-section:last-of-type { border-bottom: none; }
+
+    .pmos-section h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-2xl);
+      font-weight: 500;
+      margin: 0 0 var(--space-lg);
+      line-height: var(--leading-tight);
+    }
+
+    .pmos-section p {
+      margin: 0 0 var(--space-lg);
+      color: var(--text);
+      line-height: var(--leading-normal);
+    }
+
+    .pmos-section p:last-child { margin-bottom: 0; }
+
+    .pmos-section ul {
+      margin: 0 0 var(--space-lg);
+      padding-left: 1.25rem;
+    }
+
+    .pmos-section li {
+      margin-bottom: var(--space-sm);
+      line-height: var(--leading-normal);
+    }
+
+    .pmos-section p + table,
+    .pmos-section ul + table {
+      margin-top: var(--space-md);
+    }
+
+    .pmos-section .pmos-table-intro {
+      margin-bottom: 0;
+    }
+
+    .pmos-section .pmos-flow-after {
+      margin-top: var(--space-xl);
+      margin-bottom: var(--space-md);
+    }
+
+    .pmos-section table {
+      margin-bottom: 0;
+    }
+
+    .pmos-section p a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-soft);
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .pmos-section p a:hover {
+      color: var(--text);
+      border-bottom-color: var(--border);
+    }
+
+    /* Steps grid */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-xl);
+      margin-top: var(--space-lg);
+    }
+
+    @media (max-width: 560px) {
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+
+    .steps-card {
+      padding: var(--space-xl);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-bg);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .steps-card:hover {
+      border-color: var(--accent-soft);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .steps-card h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-lg);
+      font-weight: 500;
+      margin: 0 0 var(--space-md);
+      line-height: var(--leading-tight);
+    }
+
+    .steps-card ol {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: var(--text-base);
+      color: var(--text);
+      line-height: var(--leading-snug);
+    }
+
+    .steps-card li { margin-bottom: var(--space-sm); }
+
+    .steps-card code {
+      font-size: 0.9em;
+      background: var(--code-bg);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+    }
+
+    /* Mermaid diagram */
+    .mermaid-wrap {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-xl);
+      overflow-x: auto;
+      margin-top: var(--space-lg);
+    }
+
+    .mermaid-wrap .mermaid {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Collapsible diagram: scaled thumbnail when collapsed */
+    .diagram-collapsible {
+      margin-top: var(--space-lg);
+    }
+
+    .diagram-collapsible__inner {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .diagram-collapsible .mermaid-wrap {
+      margin-top: 0;
+    }
+
+    /* Collapsed: fixed height, diagram scaled down so full flow is visible */
+    .diagram-collapsible[data-expanded="false"] .diagram-collapsible__inner {
+      height: 16rem;
+      transition: height 0.35s ease;
+    }
+
+    .diagram-collapsible[data-expanded="false"] .mermaid-wrap {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) scale(0.38);
+      transform-origin: top center;
+      width: max-content;
+      transition: transform 0.35s ease;
+    }
+
+    /* Expanded: normal layout, full size */
+    .diagram-collapsible[data-expanded="true"] .diagram-collapsible__inner {
+      height: auto;
+      overflow: visible;
+    }
+
+    .diagram-collapsible[data-expanded="true"] .mermaid-wrap {
+      position: static;
+      transform: none;
+    }
+
+    .diagram-collapsible__toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+      padding: var(--space-sm) 0;
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: var(--text-sm);
+      color: var(--accent);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s, gap 0.2s;
+    }
+
+    .diagram-collapsible__toggle:hover {
+      color: var(--text);
+    }
+
+    .diagram-collapsible__toggle .chevron {
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    .diagram-collapsible[data-expanded="true"] .diagram-collapsible__toggle .chevron {
+      transform: rotate(180deg);
+    }
+
+    /* Top toggle: only visible when expanded, so you can collapse without scrolling */
+    .diagram-collapsible__toggle--top {
+      margin-top: 0;
+      margin-bottom: var(--space-md);
+    }
+
+    .diagram-collapsible[data-expanded="false"] .diagram-collapsible__toggle--top {
+      display: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .diagram-collapsible__inner,
+      .diagram-collapsible .mermaid-wrap { transition: none; }
+      .diagram-collapsible__toggle .chevron { transition: none; }
+    }
+
+    /* Tables — single pattern for artifacts and two-column */
+    .pmos-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: var(--space-lg);
+    }
+
+    .pmos-table th {
+      text-align: left;
+      padding: var(--space-md) var(--space-lg);
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      font-weight: 600;
+      font-size: var(--text-base);
+    }
+
+    .pmos-table td {
+      padding: var(--space-md) var(--space-lg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      line-height: var(--leading-snug);
+      font-size: var(--text-base);
+    }
+
+    .pmos-table tr:nth-child(even) { background: var(--card-bg); }
+
+    /* Demo block */
+    .demo-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-xl);
+      font-size: var(--text-base);
+      font-family: ui-monospace, 'SF Mono', monospace;
+      line-height: 1.75;
+      margin-top: var(--space-lg);
+    }
+
+    .demo-block .you { color: var(--accent); font-weight: 500; }
+    .demo-block .pmos { color: var(--text); font-weight: 500; }
+
+    /* Footer */
+    footer {
+      padding: var(--space-2xl) 0;
+      border-top: 1px solid var(--border);
+    }
+
+    footer p {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent-soft);
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--accent-soft);
+      outline-offset: 2px;
+    }
+
+    /* Staggered reveal */
+    .pmos-reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.45s ease-out, transform 0.4s ease;
+    }
+
+    .pmos-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pmos-reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="wrap">
+      <a href="../index.html" class="nav-back">&larr; Mike Lyngaas</a>
+      <a href="https://github.com/mikelyngaas/pmos" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="wrap">
+      <header class="pmos-hero pmos-reveal">
+        <h1>pmOS</h1>
+        <p>Most AI coding tools will happily build the wrong thing, fast. They skip the hard product thinking, agree with every idea, and generate bloat.</p>
+        <p>I built pmOS to fix that. It turns <a href="https://cursor.com/" target="_blank" rel="noopener noreferrer">Cursor</a> or <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer">Claude Code</a> into a product development partner; one that requires your judgment up front, then helps you produce rigorous docs and prototypes at speed.</p>
+        <div class="hero-cta">
+          <a href="https://github.com/mikelyngaas/pmos" class="btn" target="_blank" rel="noopener noreferrer">Open in GitHub &rarr;</a>
+          <div class="clone-snippet" role="region" aria-label="Clone command">
+            <code id="clone-cmd">git clone https://github.com/mikelyngaas/pmos.git</code>
+            <button type="button" class="clone-snippet__copy" id="clone-copy" aria-label="Copy clone command">Copy</button>
+          </div>
+        </div>
+        <span class="section-label">What makes pmOS unique</span>
+        <ol class="pmos-hero-list">
+          <li><strong>They're not built for 1 → N.</strong> Most tools assume a single greenfield build; in practice we're usually evolving existing products.
+            <ul><li><strong>pmOS</strong> fixes that by requiring company and product context (and optionally a design system) up front, so the AI builds on your real stack and roadmap instead of a blank slate.</li></ul>
+          </li>
+          <li><strong>They're not built for doc creation.</strong> Serious features need written alignment: edge cases, dependencies, and decisions that don't fit in a prototype.
+            <ul><li><strong>pmOS</strong> is built for that—modular briefs, PRDs, GTM 1-pagers, and technical docs so you can go doc-first and spin off prototypes when they're useful.</li></ul>
+          </li>
+          <li><strong>They're too agreeable.</strong> By default they reinforce every idea and add nice-to-haves, which creates bloat.
+            <ul><li><strong>pmOS</strong> runs artifacts through review personas (Founder/CEO, Design, Tech Lead, QA, Support, GTM) with a high bar, so the system sharpens and challenges instead of just agreeing.</li></ul>
+          </li>
+          <li><strong>They do the core product thinking for you.</strong> That's fine for side projects; for real product work you need to own the problem, why it matters, and how you'll win.
+            <ul><li><strong>pmOS</strong> requires you to draft that core thinking first; the AI then assists with rigor, detail, and execution instead of replacing your judgment.</li></ul>
+          </li>
+        </ol>
+      </header>
+
+      <section class="pmos-section pmos-reveal">
+        <span class="section-label">Inputs</span>
+        <h2>What you give the system</h2>
+        <p>Three inputs feed every artifact:</p>
+        <ul>
+          <li><strong>PM POV</strong>: your read on the problem, why it matters, your hypothesis, your worries, your conviction level. The AI builds on your judgment, not around it.</li>
+          <li><strong>Feature Context</strong>: raw evidence like customer quotes, support tickets, sales feedback, competitive intel. Messy is fine.</li>
+          <li><strong>Company Context</strong>: our product vision, north star metrics, quarterly goals, design principles. Set once in <code>System/company-context.md</code>, reuse for every feature.</li>
+        </ul>
+        <p class="pmos-table-intro">Conviction calibrates how the AI behaves:</p>
+        <table class="pmos-table">
+          <thead>
+            <tr><th>Your conviction</th><th>AI mode</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>High (80–100%)</strong></td><td><strong>Sharpen.</strong> Strengthen your framing with evidence. Push for precision.</td></tr>
+            <tr><td><strong>Moderate (60–79%)</strong></td><td><strong>Sharpen and challenge.</strong> Build out the framing but also surface 1–2 pressure-test questions.</td></tr>
+            <tr><td><strong>Low (&lt; 60%)</strong></td><td><strong>Challenge.</strong> Pressure-test the hypothesis. Surface alternatives. Ask harder questions.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="pmos-section pmos-reveal">
+        <span class="section-label">Outputs</span>
+        <h2>What you get</h2>
+        <p>Five artifact types. Modular — spin off a prototype from the brief as soon as it's ready; you don't need to finish the PRD first. Produce what the feature and its stage require.</p>
+        <table class="pmos-table">
+          <thead>
+            <tr><th>Artifact</th><th>What it does</th><th>When to use it</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Product Brief</strong></td><td>Aligns the team on problem, goals, and solution direction</td><td>Early stage — before detailed requirements</td></tr>
+            <tr><td><strong>Full PRD</strong></td><td>Detailed requirements and edge cases ready for engineering</td><td>Pre-build — after alignment</td></tr>
+            <tr><td><strong>Interactive Prototype</strong></td><td>Clickable, self-contained HTML visualization of key workflows</td><td>From brief or PRD — when stakeholders need to <em>see</em> it</td></tr>
+            <tr><td><strong>GTM 1-Pager</strong></td><td>Sales/CS/marketing primer for a feature</td><td>Pre-launch — when GTM teams need enablement</td></tr>
+            <tr><td><strong>External Docs</strong></td><td>Customer-facing documentation draft</td><td>Near or post-launch</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="pmos-section pmos-reveal">
+        <span class="section-label">Flow</span>
+        <h2>How it works</h2>
+        <p>Three inputs converge at the Artifact Hub, which routes to the right workflow. Each artifact runs Draft → Review → Revise; the AI simulates the right stakeholders and tags every piece of feedback P0/P1/P2.</p>
+        <div class="diagram-collapsible" id="flow-diagram" data-expanded="false" role="region" aria-label="Flow diagram">
+          <button type="button" class="diagram-collapsible__toggle diagram-collapsible__toggle--top" aria-expanded="true" aria-controls="flow-diagram-content" id="flow-diagram-toggle-top">
+            <span class="chevron" aria-hidden="true">▼</span>
+            <span class="diagram-collapsible__label">Collapse diagram</span>
+          </button>
+          <div class="diagram-collapsible__inner" id="flow-diagram-content">
+            <div class="mermaid-wrap">
+              <pre class="mermaid">
+flowchart TB
+    subgraph inputs["Inputs"]
+        A1[PM POV]
+        A2[Feature Context]
+        A3[Company Context]
+    end
+
+    B{Confident in solution?}
+    B -->|High| B1[Sharpen]
+    B -->|Mid| B2[Sharpen + challenge]
+    B -->|Low| B3[Challenge]
+
+    subgraph menu["Artifacts (draft with AI)"]
+        M1[Product Brief]
+        M2[Full PRD]
+        M3[Prototype]
+        M4[GTM 1-Pager]
+        M5[External Docs]
+    end
+
+    subgraph swarm["Personas give feedback"]
+        P1[CEO/Founder]
+        P2[Tech Lead]
+        P3[Design Lead]
+        P4[QA · GTM · Support · Legal]
+    end
+
+    subgraph loop["Draft → Review → Iterate"]
+        D[Draft]
+        R[Review P0/P1/P2]
+        I[Revise]
+        D --> R --> I --> D
+    end
+
+    F[Final artifacts]
+
+    inputs --> B
+    B1 --> menu
+    B2 --> menu
+    B3 --> menu
+    menu --> swarm
+    swarm --> loop
+    loop --> F
+              </pre>
+            </div>
+          </div>
+          <button type="button" class="diagram-collapsible__toggle" aria-expanded="false" aria-controls="flow-diagram-content" id="flow-diagram-toggle">
+            <span class="chevron" aria-hidden="true">▼</span>
+            <span class="diagram-collapsible__label">Expand full diagram</span>
+          </button>
+        </div>
+        <p class="pmos-flow-after">Review phase uses AI-simulated personas. Each focuses on a different slice (strategy, engineering, UX, compliance, etc.):</p>
+        <table class="pmos-table">
+          <thead>
+            <tr><th>Persona</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>CEO/Founder</strong></td><td>Strategic lens: right investment at the right time, ROI, opportunity cost, scope prioritization.</td></tr>
+            <tr><td><strong>Tech Lead</strong></td><td>Engineering reality check: feasibility, architecture, dependencies, risk, build-vs-buy.</td></tr>
+            <tr><td><strong>Design Lead</strong></td><td>User's advocate: intuitive workflows, cognitive load, edge-case UX, simplification.</td></tr>
+            <tr><td><strong>QA Lead</strong></td><td>Failure-case thinker: acceptance criteria, edge cases, testability, release readiness.</td></tr>
+            <tr><td><strong>GTM Lead</strong></td><td>Market-facing strategist: positioning, adoption, packaging/pricing, launch and enablement.</td></tr>
+            <tr><td><strong>Support Lead</strong></td><td>Customer confusion anticipator: error messaging, documentation, post-launch monitoring.</td></tr>
+            <tr><td><strong>Legal Lead</strong></td><td>Risk and compliance guardrail: regulatory, contractual, data privacy, disclosures.</td></tr>
+            <tr><td><strong>Data Science Lead</strong></td><td>Measurement reality check: instrumentable goals, event design, metrics, guardrails.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="pmos-section pmos-reveal">
+        <span class="section-label">Try it</span>
+        <h2>Get started</h2>
+        <p>Clone the repo, open the folder in Cursor or Claude Code, then invoke <code>@new-feature</code>. First time only: fill in <code>System/company-context.md</code> with your vision and goals.</p>
+        <a href="https://github.com/mikelyngaas/pmos" class="btn" target="_blank" rel="noopener noreferrer">Open in GitHub &rarr;</a>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p><a href="../index.html">← Back to Mike Lyngaas</a> &middot; <a href="https://github.com/mikelyngaas/pmos" target="_blank" rel="noopener noreferrer">pmOS on GitHub</a></p>
+      <p style="margin-top: var(--space-md);">&copy; 2026 Mike Lyngaas</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'neutral', useMaxWidth: true });
+  </script>
+
+  <script>
+    (function() {
+      const sections = document.querySelectorAll('.pmos-reveal');
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08 });
+
+      sections.forEach(function(el, i) {
+        el.style.transitionDelay = (i * 0.06) + 's';
+        observer.observe(el);
+      });
+    })();
+
+    (function() {
+      var diagram = document.getElementById('flow-diagram');
+      var toggles = diagram && diagram.querySelectorAll('.diagram-collapsible__toggle');
+      var labels = diagram && diagram.querySelectorAll('.diagram-collapsible__label');
+      if (!diagram || !toggles || !toggles.length) return;
+
+      function setState(expanded) {
+        diagram.setAttribute('data-expanded', expanded);
+        toggles.forEach(function(t) { t.setAttribute('aria-expanded', expanded); });
+        if (labels) labels.forEach(function(l) { l.textContent = expanded ? 'Collapse diagram' : 'Expand full diagram'; });
+        sessionStorage.setItem('pmos-diagram-expanded', expanded);
+      }
+
+      var expanded = sessionStorage.getItem('pmos-diagram-expanded') === 'true';
+      setState(expanded);
+
+      toggles.forEach(function(toggle) {
+        toggle.addEventListener('click', function() {
+          setState(diagram.getAttribute('data-expanded') !== 'true');
+        });
+      });
+    })();
+
+    (function() {
+      var btn = document.getElementById('clone-copy');
+      var code = document.getElementById('clone-cmd');
+      if (!btn || !code) return;
+      btn.addEventListener('click', function() {
+        var text = code.textContent;
+        navigator.clipboard.writeText(text).then(function() {
+          btn.textContent = 'Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.textContent = 'Copy';
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
