@@ -420,6 +420,10 @@
       display: none;
     }
 
+    .diagram-collapsible__inner {
+      cursor: pointer;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .diagram-collapsible__inner,
       .diagram-collapsible .mermaid-wrap { transition: none; }
@@ -526,8 +530,8 @@
     <div class="wrap">
       <header class="pmos-hero pmos-reveal">
         <h1>pmOS</h1>
-        <p>Most AI coding tools will happily build the wrong thing, fast. They skip the hard product thinking, agree with every idea, and generate bloat.</p>
-        <p>I built pmOS to fix that. It turns <a href="https://cursor.com/" target="_blank" rel="noopener noreferrer">Cursor</a> or <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer">Claude Code</a> into a product development partner; one that requires your judgment up front, then helps you produce rigorous docs and prototypes at speed.</p>
+        <p>Most AI coding tools will entusiastically build the wrong thing, fast. They skip the hard product thinking, agree with every idea, and generate bloat.</p>
+        <p>I built pmOS to fix that. It turns <a href="https://cursor.com/" target="_blank" rel="noopener noreferrer">Cursor</a> or <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer">Claude Code</a> into a product development partner; one that requires your judgment up front, pressure tests your thinking, then helps you produce rigorous brief, prototypes, and even customer facing documentation fast.</p>
         <div class="hero-cta">
           <a href="https://github.com/mikelyngaas/pmos" class="btn" target="_blank" rel="noopener noreferrer">Open in GitHub &rarr;</a>
           <div class="clone-snippet" role="region" aria-label="Clone command">
@@ -537,7 +541,7 @@
         </div>
         <span class="section-label">What makes pmOS unique</span>
         <ol class="pmos-hero-list">
-          <li><strong>They're not built for 1 → N.</strong> Most tools assume a single greenfield build; in practice we're usually evolving existing products.
+          <li><strong>Most AI coding tools aren't built for 1 → N.</strong> Most tools assume a ~single-shot, greenfield build; in practice we're usually evolving existing products.
             <ul><li><strong>pmOS</strong> fixes that by requiring company and product context (and optionally a design system) up front, so the AI builds on your real stack and roadmap instead of a blank slate.</li></ul>
           </li>
           <li><strong>They're not built for doc creation.</strong> Serious features need written alignment: edge cases, dependencies, and decisions that don't fit in a prototype.
@@ -557,8 +561,8 @@
         <h2>What you give the system</h2>
         <p>Three inputs feed every artifact:</p>
         <ul>
-          <li><strong>PM POV</strong>: your read on the problem, why it matters, your hypothesis, your worries, your conviction level. The AI builds on your judgment, not around it.</li>
-          <li><strong>Feature Context</strong>: raw evidence like customer quotes, support tickets, sales feedback, competitive intel. Messy is fine.</li>
+          <li><strong>PM POV</strong>: the AI will ask you your read on the problem, why it matters, your hypotheses, worries, and your conviction level. The AI builds on your judgment, not around it.</li>
+          <li><strong>Feature Context</strong>: drop in raw evidence like customer quotes, support tickets, sales feedback, competitive intel. Messy is fine.</li>
           <li><strong>Company Context</strong>: our product vision, north star metrics, quarterly goals, design principles. Set once in <code>System/company-context.md</code>, reuse for every feature.</li>
         </ul>
         <p class="pmos-table-intro">Conviction calibrates how the AI behaves:</p>
@@ -601,7 +605,7 @@
             <span class="chevron" aria-hidden="true">▼</span>
             <span class="diagram-collapsible__label">Collapse diagram</span>
           </button>
-          <div class="diagram-collapsible__inner" id="flow-diagram-content">
+          <div class="diagram-collapsible__inner" id="flow-diagram-content" tabindex="0" role="button" aria-label="Expand full diagram">
             <div class="mermaid-wrap">
               <pre class="mermaid">
 flowchart TB
@@ -691,7 +695,12 @@ flowchart TB
 
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true, theme: 'neutral', useMaxWidth: true });
+    mermaid.initialize({ startOnLoad: false, theme: 'neutral', useMaxWidth: true });
+    window.runMermaidOnce = function() {
+      if (window._mermaidRan) return;
+      window._mermaidRan = true;
+      mermaid.run({ querySelector: '.mermaid', suppressErrors: true });
+    };
   </script>
 
   <script>
@@ -716,23 +725,45 @@ flowchart TB
       var diagram = document.getElementById('flow-diagram');
       var toggles = diagram && diagram.querySelectorAll('.diagram-collapsible__toggle');
       var labels = diagram && diagram.querySelectorAll('.diagram-collapsible__label');
+      var inner = document.getElementById('flow-diagram-content');
       if (!diagram || !toggles || !toggles.length) return;
 
       function setState(expanded) {
         diagram.setAttribute('data-expanded', expanded);
         toggles.forEach(function(t) { t.setAttribute('aria-expanded', expanded); });
         if (labels) labels.forEach(function(l) { l.textContent = expanded ? 'Collapse diagram' : 'Expand full diagram'; });
+        if (inner) {
+          inner.setAttribute('aria-label', expanded ? 'Collapse diagram' : 'Expand full diagram');
+          inner.setAttribute('title', expanded ? 'Click to collapse diagram' : 'Click to expand diagram');
+        }
         sessionStorage.setItem('pmos-diagram-expanded', expanded);
+        if (expanded && window.runMermaidOnce) {
+          requestAnimationFrame(function() {
+            requestAnimationFrame(window.runMermaidOnce);
+          });
+        }
+      }
+
+      function toggle() {
+        setState(diagram.getAttribute('data-expanded') !== 'true');
       }
 
       var expanded = sessionStorage.getItem('pmos-diagram-expanded') === 'true';
       setState(expanded);
 
-      toggles.forEach(function(toggle) {
-        toggle.addEventListener('click', function() {
-          setState(diagram.getAttribute('data-expanded') !== 'true');
-        });
+      toggles.forEach(function(toggleBtn) {
+        toggleBtn.addEventListener('click', function(e) { e.stopPropagation(); toggle(); });
       });
+
+      if (inner) {
+        inner.addEventListener('click', function(e) { e.stopPropagation(); toggle(); });
+        inner.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggle();
+          }
+        });
+      }
     })();
 
     (function() {
