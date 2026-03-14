@@ -102,7 +102,7 @@
 
     .nav-back { display: flex; align-items: center; gap: var(--space-xs); }
 
-    /* Hero */
+    /* Hero / Intro */
     .pmos-hero {
       padding: var(--space-5xl) 0 var(--space-4xl);
       border-bottom: 1px solid var(--border);
@@ -117,7 +117,6 @@
       line-height: var(--leading-tight);
     }
 
-    .pmos-hero .tagline,
     .pmos-hero p {
       font-size: var(--text-base);
       color: var(--text);
@@ -125,14 +124,37 @@
       line-height: var(--leading-normal);
     }
 
-    .pmos-hero .tagline { font-style: italic; color: var(--text-muted); }
     .pmos-hero p:last-of-type { margin-bottom: var(--space-2xl); }
-    .pmos-hero-list { margin: 0 0 var(--space-lg); padding-left: 1.25rem; }
-    .pmos-hero-list li { margin-bottom: var(--space-md); line-height: var(--leading-normal); }
-    .pmos-hero-list ul { margin: var(--space-sm) 0 0; padding-left: 1.25rem; list-style-type: circle; }
-    .pmos-hero-list ul li { margin-bottom: var(--space-xs); }
-    .pmos-hero .section-label { margin-top: var(--space-xl); margin-bottom: var(--space-sm); }
-    .pmos-hero-intro { margin: 0 0 var(--space-lg); }
+
+    .phases-list { margin: var(--space-xl) 0 0; padding-left: 1.25rem; }
+    .phases-list li { margin-bottom: var(--space-lg); line-height: var(--leading-normal); }
+    .phases-list li:last-child { margin-bottom: 0; }
+    .phases-list ul { margin: var(--space-sm) 0 0; padding-left: 1.25rem; list-style: disc; }
+    .phases-list ul li { margin-bottom: var(--space-sm); }
+
+    /* Mini diagram */
+    .mini-diagram {
+      margin-top: var(--space-2xl);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-lg) var(--space-xl);
+      overflow-x: auto;
+    }
+    .mini-diagram .mermaid { display: flex; justify-content: center; }
+
+    /* Get started block */
+    .get-started-block {
+      padding: var(--space-4xl) 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .get-started-block .section-label { margin-bottom: var(--space-sm); }
+    .get-started-intro {
+      margin: 0 0 var(--space-lg);
+      line-height: var(--leading-relaxed);
+    }
+    .get-started-block .clone-snippet { margin-bottom: var(--space-lg); }
+    .get-started-btn { display: inline-block; }
 
     /* Single primary button style */
     .btn {
@@ -158,11 +180,6 @@
       color: var(--bg);
     }
 
-    /* Hero CTA: button + clone snippet */
-    .hero-cta {
-      margin-bottom: var(--space-2xl);
-    }
-    .hero-cta .btn { margin-bottom: var(--space-lg); }
     .clone-snippet {
       position: relative;
       background: var(--code-bg);
@@ -198,7 +215,7 @@
       border-color: var(--text);
     }
 
-    /* Section label — aligns with site card-label (eyebrow) */
+    /* Section label */
     .section-label {
       font-family: 'Fraunces', Georgia, serif;
       font-size: var(--text-xs);
@@ -244,6 +261,11 @@
       line-height: var(--leading-normal);
     }
 
+    .pmos-section .pmos-hero-list { margin: 0 0 var(--space-lg); padding-left: 1.25rem; }
+    .pmos-section .pmos-hero-list li { margin-bottom: var(--space-md); line-height: var(--leading-normal); }
+    .pmos-section .pmos-hero-list ul { margin: var(--space-sm) 0 0; padding-left: 1.25rem; list-style-type: circle; }
+    .pmos-section .pmos-hero-list ul li { margin-bottom: var(--space-xs); }
+
     .pmos-section p + table,
     .pmos-section ul + table {
       margin-top: var(--space-md);
@@ -274,57 +296,6 @@
       border-bottom-color: var(--border);
     }
 
-    /* Steps grid */
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-xl);
-      margin-top: var(--space-lg);
-    }
-
-    @media (max-width: 560px) {
-      .steps-grid { grid-template-columns: 1fr; }
-    }
-
-    .steps-card {
-      padding: var(--space-xl);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--card-bg);
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .steps-card:hover {
-      border-color: var(--accent-soft);
-      box-shadow: var(--card-shadow-hover);
-    }
-
-    .steps-card h3 {
-      font-family: 'Fraunces', Georgia, serif;
-      font-size: var(--text-lg);
-      font-weight: 500;
-      margin: 0 0 var(--space-md);
-      line-height: var(--leading-tight);
-    }
-
-    .steps-card ol {
-      margin: 0;
-      padding-left: 1.25rem;
-      font-size: var(--text-base);
-      color: var(--text);
-      line-height: var(--leading-snug);
-    }
-
-    .steps-card li { margin-bottom: var(--space-sm); }
-
-    .steps-card code {
-      font-size: 0.9em;
-      background: var(--code-bg);
-      padding: 0.1em 0.35em;
-      border-radius: 3px;
-      border: 1px solid var(--border);
-    }
-
     /* Mermaid diagram */
     .mermaid-wrap {
       background: var(--card-bg);
@@ -340,7 +311,6 @@
       justify-content: center;
     }
 
-    /* Collapsible diagram: scaled thumbnail when collapsed */
     .diagram-collapsible {
       margin-top: var(--space-lg);
     }
@@ -355,7 +325,6 @@
       margin-top: 0;
     }
 
-    /* Collapsed: fixed height, diagram scaled down so full flow is visible */
     .diagram-collapsible[data-expanded="false"] .diagram-collapsible__inner {
       height: 16rem;
       transition: height 0.35s ease;
@@ -371,7 +340,6 @@
       transition: transform 0.35s ease;
     }
 
-    /* Expanded: normal layout, full size */
     .diagram-collapsible[data-expanded="true"] .diagram-collapsible__inner {
       height: auto;
       overflow: visible;
@@ -410,7 +378,6 @@
       transform: rotate(180deg);
     }
 
-    /* Top toggle: only visible when expanded, so you can collapse without scrolling */
     .diagram-collapsible__toggle--top {
       margin-top: 0;
       margin-bottom: var(--space-md);
@@ -430,7 +397,7 @@
       .diagram-collapsible__toggle .chevron { transition: none; }
     }
 
-    /* Tables — single pattern for artifacts and two-column */
+    /* Tables */
     .pmos-table {
       width: 100%;
       border-collapse: collapse;
@@ -456,20 +423,13 @@
 
     .pmos-table tr:nth-child(even) { background: var(--card-bg); }
 
-    /* Demo block */
-    .demo-block {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: var(--space-xl);
-      font-size: var(--text-base);
-      font-family: ui-monospace, 'SF Mono', monospace;
-      line-height: 1.75;
-      margin-top: var(--space-lg);
+    /* Closing section */
+    .pmos-closing {
+      padding: var(--space-4xl) 0;
+      border-bottom: 1px solid var(--border);
     }
-
-    .demo-block .you { color: var(--accent); font-weight: 500; }
-    .demo-block .pmos { color: var(--text); font-weight: 500; }
+    .pmos-closing p { margin: 0 0 var(--space-lg); }
+    .pmos-closing .btn { margin-top: var(--space-md); }
 
     /* Footer */
     footer {
@@ -501,7 +461,6 @@
       outline-offset: 2px;
     }
 
-    /* Staggered reveal */
     .pmos-reveal {
       opacity: 0;
       transform: translateY(12px);
@@ -528,38 +487,66 @@
 
   <main>
     <div class="wrap">
+      <!-- 1. Intro: short TLDR + 4 phases + optional mini diagram -->
       <header class="pmos-hero pmos-reveal">
         <h1>Product Dev OS</h1>
-        <p>Most AI coding tools will enthusiastically build the wrong thing, fast. They skip the hard product thinking, agree with every idea, and generate bloat.</p>
-        <p>I built Product Dev OS to fix that. It turns <a href="https://cursor.com/" target="_blank" rel="noopener noreferrer">Cursor</a> or <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer">Claude Code</a> into a product development partner that pressure tests your core product thinking, channels your most opinionated EPD and XFN partners to develop a holistic experience, and builds high quality briefs and prototypes insanely fast.</p>
-        <p>--&gt; PMs and product builders: ping me with feedback on this!</p>
-        <div class="hero-cta">
-          <a href="https://github.com/mikelyngaas/product-dev-os" class="btn" target="_blank" rel="noopener noreferrer">Open in GitHub &rarr;</a>
-          <div class="clone-snippet" role="region" aria-label="Clone command">
-            <code id="clone-cmd">git clone https://github.com/mikelyngaas/product-dev-os.git</code>
-            <button type="button" class="clone-snippet__copy" id="clone-copy" aria-label="Copy clone command">Copy</button>
-          </div>
-        </div>
-        <span class="section-label">What makes Product Dev OS unique</span>
-        <ol class="pmos-hero-list">
-          <li><strong>Most AI coding tools aren't built for 1 → N.</strong> Most tools assume a ~single-shot, greenfield build; in practice we're usually evolving existing products.
-            <ul><li><strong>Product Dev OS</strong> fixes that by requiring company and product context (and optionally a design system) up front, so the AI builds on your real stack and roadmap instead of a blank slate.</li></ul>
+        <span class="section-label">TL;DR</span>
+        <p>Most AI coding tools will enthusiastically build the wrong thing, fast. They outsource the hard product thinking, agree with every idea, and generate bloat.</p>
+        <p>I built Product Dev OS to fix that. It turns <a href="https://cursor.com/" target="_blank" rel="noopener noreferrer">Cursor</a> or <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer">Claude Code</a> into a product development partner that pressure tests your core product thinking, channels your most opinionated EPD and XFN partners, and <strong>builds high quality briefs and prototypes insanely fast</strong>.</p>
+        <p>There are 4 phases:</p>
+        <ol class="phases-list">
+          <li>
+            <strong>Load in your context</strong>
+            <ul>
+              <li><strong>PM POV:</strong> the AI will ask you 5 targeted questions about the problem, it's importance, your solution hypothesis, and your confidence in it —> the AI will challenge vs. strengthen your ideas based on your confidence.</li>
+              <li><strong>Company context:</strong> goals, north star metrics, design principles. Set once and it'll inform all features built.</li>
+              <li><strong>Feature context:</strong> raw customer asks, Gong transcripts, or competitive intel.</li>
+            </ul>
           </li>
-          <li><strong>They're not built for doc creation.</strong> Serious features need written alignment: edge cases, dependencies, and decisions that don't fit in a prototype.
-            <ul><li><strong>Product Dev OS</strong> is built for that—modular briefs, PRDs, GTM 1-pagers, and technical docs so you can go doc-first and spin off prototypes when they're useful.</li></ul>
+          <li>
+            <strong>Artifact(s) draft.</strong> The AI will take a pass at a draft Product Brief, PRD, and/or Prototype, and prompt you to fill in the gaps. These are based on templates that you can make your own.
           </li>
-          <li><strong>They're too agreeable.</strong> By default they reinforce every idea and add nice-to-haves, which creates bloat.
-            <ul><li><strong>Product Dev OS</strong> runs artifacts through review personas (Founder/CEO, Design, Tech Lead, QA, Support, GTM) with a high bar, so the system sharpens and challenges instead of just agreeing.</li></ul>
+          <li>
+            <strong>Stakeholder review & iteration.</strong> Purpose-built personas review output and provide feedback, tagging it with P0/P1/P2 feedback. These channel your CEO/Founder, Tech Lead, Design Lead, QA, GTM, Support, and Legal & Data partners to make sure you're covering all your bases.
           </li>
-          <li><strong>They do the core product thinking for you.</strong> That's fine for side projects; for real product work you need to own the problem, why it matters, and how you'll win.
-            <ul><li><strong>Product Dev OS</strong> requires you to draft that core thinking first; the AI then assists with rigor, detail, and execution instead of replacing your judgment.</li></ul>
+          <li>
+            <strong>Final artifacts produced.</strong> After specific quality thresholds are met on artifacts, the AI will document key decisions and changes made during the iteration process and give you a polished artifact(s) you can bring to your human team.
           </li>
         </ol>
+        <div class="mini-diagram" aria-hidden="true">
+          <pre class="mermaid">
+flowchart LR
+    A("[1] Context") --> B("[2] Draft")
+    B --> C("[3] Review")
+    C --> D("[4] Final")
+          </pre>
+        </div>
       </header>
+
+      <!-- 2. Get started: instruction + clone + GitHub -->
+      <section class="get-started-block pmos-reveal">
+        <span class="section-label">Get started</span>
+        <p class="get-started-intro">Run this in your terminal, then open the folder in Cursor or Claude Code and type <code>@new-feature</code> to kick off the workflow. The AI will prompt you from there.</p>
+        <div class="clone-snippet" role="region" aria-label="Clone command">
+          <code id="clone-cmd">git clone https://github.com/mikelyngaas/product-dev-os.git</code>
+          <button type="button" class="clone-snippet__copy" id="clone-copy" aria-label="Copy clone command">Copy</button>
+        </div>
+        <a href="https://github.com/mikelyngaas/product-dev-os" class="btn get-started-btn" target="_blank" rel="noopener noreferrer">Open in GitHub &rarr;</a>
+      </section>
+
+      <!-- 3. More detail: What makes unique, Inputs, Outputs, How it works -->
+      <section class="pmos-section pmos-reveal">
+        <span class="section-label">What makes Product Dev OS unique</span>
+        <ul class="pmos-hero-list">
+          <li><strong>You own the core product thinking, and AI fills in the gaps.</strong> By default, most AI coding tools want to own the problem, which may be fine for side projects. For real product work you need to own the fundamentals, and Product Dev OS will push you on this.</li>
+          <li><strong>Builds on your real stack and roadmap instead of 0 → 1.</strong> Most AI coding tools assume a ~single-shot, greenfield build, but 95% of us are building on existing platforms with context and flaws. Product Dev OS requires context on your company's strategy, customers, and constraints.</li>
+          <li><strong>It's doc-first (though you can build prototypes too).</strong> Larger features require documentation of edge cases and dependencies that don't fit neatly in a prototype. This system will help build eng-ready PRDs with all the gory details.</li>
+          <li><strong>Product decisions get sharpened and challenged instead of just agreed with.</strong> Work runs through purpose-built personas (Founder/CEO, Design, Tech Lead, QA, Support, GTM) with a high bar, so the system pushes back instead of blindly reinforcing.</li>
+        </ul>
+      </section>
 
       <section class="pmos-section pmos-reveal">
         <span class="section-label">Inputs</span>
-        <h2>What you give the system</h2>
         <p>Three inputs feed every artifact:</p>
         <ul>
           <li><strong>PM POV</strong>: the AI will ask you your read on the problem, why it matters, your hypotheses, worries, and your conviction level. The AI builds on your judgment, not around it.</li>
@@ -581,8 +568,7 @@
 
       <section class="pmos-section pmos-reveal">
         <span class="section-label">Outputs</span>
-        <h2>What you get</h2>
-        <p>Five artifact types. Modular — spin off a prototype from the brief as soon as it's ready; you don't need to finish the PRD first. Produce what the feature and its stage require.</p>
+        <p>Five modular artifact types: spin off a prototype from the brief as soon as it's ready; you don't need to finish the PRD first. Produce what the feature and its stage require.</p>
         <table class="pmos-table">
           <thead>
             <tr><th>Artifact</th><th>What it does</th><th>When to use it</th></tr>
@@ -599,7 +585,6 @@
 
       <section class="pmos-section pmos-reveal">
         <span class="section-label">Flow</span>
-        <h2>How it works</h2>
         <p>Three inputs converge at the Artifact Hub, which routes to the right workflow. Each artifact runs Draft → Review → Revise; the AI simulates the right stakeholders and tags every piece of feedback P0/P1/P2.</p>
         <div class="diagram-collapsible" id="flow-diagram" data-expanded="false" role="region" aria-label="Flow diagram">
           <button type="button" class="diagram-collapsible__toggle diagram-collapsible__toggle--top" aria-expanded="true" aria-controls="flow-diagram-content" id="flow-diagram-toggle-top">
@@ -678,11 +663,13 @@ flowchart TB
         </table>
       </section>
 
-      <section class="pmos-section pmos-reveal">
-        <span class="section-label">Try it</span>
-        <h2>Get started</h2>
-        <p>Clone the repo, open the folder in Cursor or Claude Code, then invoke <code>@new-feature</code>. First time only: fill in <code>System/company-context.md</code> with your vision and goals.</p>
+      <!-- 4. Closing: so-what + get started + feedback -->
+      <section class="pmos-closing pmos-reveal">
+        <span class="section-label">Closing</span>
+        <p>I hope this OS helps you create team-ready docs and prototypes faster, without sacrificing first principles.</p>
+        <p>To try it: clone the repo, open the folder in Cursor or Claude Code, then run <code>@new-feature</code>.</p>
         <a href="https://github.com/mikelyngaas/product-dev-os" class="btn" target="_blank" rel="noopener noreferrer">Open in GitHub &rarr;</a>
+        <p style="margin-top: var(--space-xl);">→ PMs and Product builders: ping me with feedback on this!</p>
       </section>
     </div>
   </main>
@@ -783,6 +770,13 @@ flowchart TB
         });
       });
     })();
+
+    // Run mermaid on load so mini diagram and flow diagram render
+    document.addEventListener('DOMContentLoaded', function() {
+      requestAnimationFrame(function() {
+        if (window.runMermaidOnce) window.runMermaidOnce();
+      });
+    });
   </script>
 </body>
 </html>
