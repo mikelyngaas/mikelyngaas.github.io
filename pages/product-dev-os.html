@@ -125,7 +125,8 @@
     }
 
     .pmos-hero p:last-of-type { margin-bottom: var(--space-2xl); }
-
+    .pmos-hero p.phases-intro { margin-bottom: var(--space-lg); }
+    .pmos-hero .phases-list { margin-top: 0; }
     .phases-list { margin: var(--space-xl) 0 0; padding-left: 1.25rem; }
     .phases-list li { margin-bottom: var(--space-lg); line-height: var(--leading-normal); }
     .phases-list li:last-child { margin-bottom: 0; }
@@ -492,8 +493,8 @@
         <h1>Product Dev OS</h1>
         <span class="section-label">TL;DR</span>
         <p>Most AI coding tools will enthusiastically build the wrong thing, fast. They outsource the hard product thinking, agree with every idea, and generate bloat.</p>
-        <p>I built Product Dev OS to fix that. It turns <a href="https://cursor.com/" target="_blank" rel="noopener noreferrer">Cursor</a> or <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer">Claude Code</a> into a product development partner that pressure tests your core product thinking, channels your most opinionated EPD and XFN partners, and <strong>builds high quality briefs and prototypes insanely fast</strong>.</p>
-        <p>There are 4 phases:</p>
+        <p>I built Product Dev OS to fix that. It turns Cursor or Claude Code into a product development partner that pressure tests your core product thinking, channels your most opinionated EPD and XFN partners, and <strong>builds high quality briefs and prototypes insanely fast</strong>.</p>
+        <p class="phases-intro">There are 4 phases:</p>
         <ol class="phases-list">
           <li>
             <strong>Load in your context</strong>
@@ -517,8 +518,9 @@
           <pre class="mermaid">
 flowchart LR
     A("[1] Context") --> B("[2] Draft")
-    B --> C("[3] Review")
+    B --> C("[3] Persona review")
     C --> D("[4] Final")
+    C --> B
           </pre>
         </div>
       </header>
