@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Dev OS — Flow diagram (screenshot)</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231c1c1c'/><text x='16' y='22' font-family='Georgia,serif' font-size='16' font-weight='bold' fill='%23faf9f7' text-anchor='middle'>ML</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f5f1;
+      --text: #1a1a1a;
+      --text-muted: #4a4a4a;
+      --text-light: #6b6b6b;
+      --border: #e2dfda;
+      --card-bg: #ffffff;
+      --radius: 0.5rem;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 1rem 2rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    .screenshot-topbar {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0 1.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+    .screenshot-topbar a {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .screenshot-topbar a:hover { color: var(--accent, #e86b58); }
+    .screenshot-page-title {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
+    }
+    .diagram-screenshot-wrap {
+      width: 100%;
+      max-width: 1200px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      overflow-x: auto;
+    }
+    .diagram-screenshot-wrap .mermaid {
+      display: flex;
+      justify-content: center;
+    }
+    .diagram-screenshot-wrap .mermaid svg {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="screenshot-topbar">
+    <a href="product-dev-os.html">&larr; Product Dev OS</a>
+    <div id="theme-controls"></div>
+  </div>
+  <p class="screenshot-page-title">Product Dev OS — Flow</p>
+  <div class="diagram-screenshot-wrap">
+    <pre class="mermaid">
+flowchart LR
+    subgraph inputs["Inputs"]
+        direction TB
+        A1[PM POV]
+        A2[Feature Context]
+        A3[Company Context]
+        A1 ~~~ A2 ~~~ A3
+    end
+
+    B{Confident in solution?}
+    B -->|High| B1[Sharpen]
+    B -->|Mid| B2[Sharpen + challenge]
+    B -->|Low| B3[Challenge]
+
+    subgraph menu["Artifacts (draft with AI)"]
+        direction TB
+        M1[Product Brief]
+        M2[Full PRD]
+        M3[Prototype]
+        M4[GTM 1-Pager]
+        M5[External Docs]
+        M1 ~~~ M2 ~~~ M3 ~~~ M4 ~~~ M5
+    end
+
+    subgraph swarm["Personas give feedback"]
+        direction TB
+        P1[CEO/Founder]
+        P2[Tech Lead]
+        P3[Design Lead]
+        P4[QA · GTM · Support · Legal]
+        P1 ~~~ P2 ~~~ P3 ~~~ P4
+    end
+
+    subgraph loop["Draft → Review → Iterate"]
+        D[Draft]
+        R[Review P0/P1/P2]
+        I[Revise]
+        D --> R --> I --> D
+    end
+
+    F[Final artifacts]
+
+    inputs --> B
+    B1 --> menu
+    B2 --> menu
+    B3 --> menu
+    menu --> swarm
+    swarm --> loop
+    loop --> F
+    </pre>
+  </div>
+
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'neutral',
+      useMaxWidth: true,
+      flowchart: {
+        defaultRenderer: 'dagre-wrapper',
+        inheritDir: false
+      }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+      requestAnimationFrame(function() {
+        mermaid.run({ querySelector: '.mermaid', suppressErrors: true });
+      });
+    });
+  </script>
+  <script src="../assets/theme.js"></script>
+</body>
+</html>

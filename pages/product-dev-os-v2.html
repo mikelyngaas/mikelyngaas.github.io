@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0;url=product-dev-os.html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Product Dev OS — A modular artifact system that turns Cursor or Claude into a product development partner. By Mike Lyngaas.">
   <title>Product Dev OS — Mike Lyngaas</title>
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://mikelyngaas.github.io/pages/product-dev-os.html">
+  <meta property="og:url" content="https://mikelyngaas.github.io/pages/product-dev-os-v2.html">
   <meta property="og:title" content="Product Dev OS — Mike Lyngaas">
   <meta property="og:description" content="A modular artifact system that turns Cursor or Claude into a product development partner.">
   <meta property="og:site_name" content="Mike Lyngaas">
@@ -130,8 +131,7 @@
     }
 
     .pmos-hero p:last-of-type { margin-bottom: var(--space-2xl); }
-    .pmos-hero p.phases-intro { margin-bottom: var(--space-lg); }
-    .pmos-hero .phases-list { margin-top: 0; }
+
     .phases-list { margin: var(--space-xl) 0 0; padding-left: 1.25rem; }
     .phases-list li { margin-bottom: var(--space-lg); line-height: var(--leading-normal); }
     .phases-list li:last-child { margin-bottom: 0; }
@@ -148,7 +148,6 @@
       overflow-x: auto;
     }
     .mini-diagram .mermaid { display: flex; justify-content: center; }
-    .mini-diagram svg g.node:first-child rect { stroke-dasharray: 5 5; }
 
     /* Get started block */
     .get-started-block {
@@ -501,14 +500,14 @@
       <header class="pmos-hero pmos-reveal">
         <h1>Product Dev OS</h1>
         <span class="section-label">TL;DR</span>
-        <p>By default, most AI coding tools will enthusiastically build the wrong thing, fast. They outsource the hard product thinking, agree with every idea, and generate bloat.</p>
-        <p>I built Product Dev OS to fix that. It turns Cursor or Claude Code into a product development partner that pressure tests your core product thinking and channels your most opinionated EPD and XFN partners. It produces <strong>briefs, PRDs, and prototypes in markdown that are shovel ready for human eng or agents… insanely fast</strong>.</p>
-        <p class="phases-intro">There are 4 phases:</p>
+        <p>By defaul, most AI coding tools will enthusiastically build the wrong thing, fast. They outsource the hard product thinking, agree with every idea, and generate bloat.</p>
+        <p>I built Product Dev OS to fix that. It turns <a href="https://cursor.com/" target="_blank" rel="noopener noreferrer">Cursor</a> or <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer">Claude Code</a> into a product development partner that pressure tests your core product thinking, channels your most opinionated EPD and XFN partners, and <strong>builds high quality briefs and prototypes insanely fast</strong>.</p>
+        <p>There are 4 phases:</p>
         <ol class="phases-list">
           <li>
             <strong>Load in your context</strong>
             <ul>
-              <li><strong>PM POV:</strong> the AI will ask you 5 targeted questions about the problem, it's importance, your solution hypothesis, and your confidence in it —> the AI will challenge vs. strengthen your ideas based on your confidence.</li>
+              <li><strong>PM POV:</strong> the AI will ask you 5 targeted questions about the problem, it's importance, your solution hypotheses, and your confidence in it —> the AI will challenge vs. strengthen your ideas based on your confidence.</li>
               <li><strong>Company context:</strong> goals, north star metrics, design principles. Set once and it'll inform all features built.</li>
               <li><strong>Feature context:</strong> raw customer asks, Gong transcripts, or competitive intel.</li>
             </ul>
@@ -526,11 +525,9 @@
         <div class="mini-diagram" aria-hidden="true">
           <pre class="mermaid">
 flowchart LR
-    A("[1] Your context") --> B("[2] Draft<br/>briefs · PRDs · prototypes")
-    B --> C("[3] Persona review")
+    A("[1] Context") --> B("[2] Draft")
+    B --> C("[3] Review")
     C --> D("[4] Final")
-    C --> B
-    style A stroke-dasharray: 5 5
           </pre>
         </div>
       </header>
@@ -678,7 +675,7 @@ flowchart TB
       <!-- 4. Closing: so-what + get started + feedback -->
       <section class="pmos-closing pmos-reveal">
         <span class="section-label">Closing</span>
-        <p>I hope this OS helps you create team-ready docs and prototypes faster, without sacrificing first principles.</p>
+        <p>I hope this workflow helps you create team-ready docs and prototypes faster, without sacrificing first principles.</p>
         <p>To try it: clone the repo, open the folder in Cursor or Claude Code, then run <code>@new-feature</code>.</p>
         <a href="https://github.com/mikelyngaas/product-dev-os" class="btn" target="_blank" rel="noopener noreferrer">Open in GitHub &rarr;</a>
         <p style="margin-top: var(--space-xl);">→ PMs and Product builders: ping me with feedback on this!</p>
