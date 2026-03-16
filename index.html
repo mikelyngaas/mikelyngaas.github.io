@@ -53,6 +53,27 @@
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
 
+    .site-topbar {
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .site-topbar__wrap {
+      max-width: 60rem;
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-xl);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .site-topbar__home {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .site-topbar__home:hover { color: var(--accent); }
+
     body {
       margin: 0;
       font-family: 'Source Serif 4', Georgia, serif;
@@ -240,6 +261,9 @@
     }
 
     .project-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35em;
       font-family: 'Fraunces', Georgia, serif;
       font-size: var(--text-xl);
       font-weight: 500;
@@ -270,6 +294,21 @@
     .project-placeholder:hover {
       color: var(--text-light);
       border-bottom: none;
+    }
+
+    .project-tag {
+      flex-shrink: 0;
+      width: 0.35em;
+      height: 0.35em;
+      border-radius: 50%;
+    }
+
+    .project-tag-new {
+      background: var(--accent-soft);
+    }
+
+    .project-title:hover .project-tag-new {
+      background: var(--accent);
     }
 
     /* ---- Side gigs (coach + mentor) ---- */
@@ -444,6 +483,7 @@
     }
 
     @media (max-width: 768px) {
+      .site-topbar__wrap { padding: var(--space-lg); }
       .bento {
         grid-template-columns: 1fr;
         grid-template-areas:
@@ -479,6 +519,13 @@
 </head>
 <body>
 
+  <header class="site-topbar">
+    <div class="site-topbar__wrap">
+      <a href="index.html" class="site-topbar__home">Mike Lyngaas</a>
+      <div id="theme-controls"></div>
+    </div>
+  </header>
+
   <main class="bento">
     <div class="card card-portrait">
       <img src="assets/mike-portrait-sf-v2.png" alt="Mike Lyngaas">
@@ -498,12 +545,12 @@
     <div class="card card-build">
       <span class="card-label">Side projects</span>
       <div class="project">
-        <a href="pages/risk.html" class="project-title">Feature Risk Mitigator</a>
-        <p class="project-desc">Identify the biggest risks to your product and get actionable tactics to mitigate them early.</p>
+        <a href="pages/product-dev-os.html" class="project-title">Product Dev OS <span class="project-tag project-tag-new" aria-label="New"></span></a>
+        <p class="project-desc">A modular artifact system that turns Cursor or Claude into a product development partner.</p>
       </div>
       <div class="project">
-        <a href="pages/product-dev-os.html" class="project-title">Product Dev OS</a>
-        <p class="project-desc">A modular artifact system that turns Cursor or Claude into a product development partner.</p>
+        <a href="pages/risk.html" class="project-title">Feature Risk Mitigator</a>
+        <p class="project-desc">Identify the biggest risks to your product and get actionable tactics to mitigate them early.</p>
       </div>
     </div>
 
@@ -575,6 +622,7 @@
     <p>&copy; 2026 Mike Lyngaas</p>
   </footer>
 
+  <script src="assets/theme.js"></script>
   <script>
     // Assemble email at runtime so it's never in the HTML source
     (function() {
