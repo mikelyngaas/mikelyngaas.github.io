@@ -29,6 +29,7 @@
       --accent: #e86b58;
       --accent-soft: #f08d7d;
       --accent-bg: #fef5f4;
+      --divider: var(--accent);
       --border: #e2dfda;
       --card-bg: #ffffff;
       --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
@@ -81,7 +82,7 @@
     /* Nav */
     nav {
       padding: var(--space-xl) 0;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--divider);
     }
 
     nav .wrap.nav-wrap {
@@ -110,7 +111,7 @@
     /* Hero / Intro */
     .pmos-hero {
       padding: var(--space-5xl) 0 var(--space-4xl);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--divider);
     }
 
     .pmos-hero h1 {
@@ -153,7 +154,7 @@
     /* Get started block */
     .get-started-block {
       padding: var(--space-4xl) 0;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--divider);
     }
     .get-started-block .section-label { margin-bottom: var(--space-sm); }
     .get-started-intro {
@@ -237,7 +238,7 @@
     /* Content sections */
     .pmos-section {
       padding: var(--space-4xl) 0;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--divider);
     }
 
     .pmos-section:last-of-type { border-bottom: none; }
@@ -341,7 +342,7 @@
       position: absolute;
       top: 0;
       left: 50%;
-      transform: translateX(-50%) scale(0.38);
+      transform: translateX(-50%) scale(0.52);
       transform-origin: top center;
       width: max-content;
       transition: transform 0.35s ease;
@@ -433,7 +434,7 @@
     /* Closing section */
     .pmos-closing {
       padding: var(--space-4xl) 0;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--divider);
     }
     .pmos-closing p { margin: 0 0 var(--space-lg); }
     .pmos-closing .btn { margin-top: var(--space-md); }
@@ -699,7 +700,10 @@ flowchart TB
     window.runMermaidOnce = function() {
       if (window._mermaidRan) return;
       window._mermaidRan = true;
-      mermaid.run({ querySelector: '.mermaid', suppressErrors: true });
+      var run = mermaid.run({ querySelector: '.mermaid', suppressErrors: true });
+      Promise.resolve(run).then(function() {
+        if (window.MikeSiteTheme && window.MikeSiteTheme.injectDiagramOverrides) window.MikeSiteTheme.injectDiagramOverrides();
+      });
     };
   </script>
 

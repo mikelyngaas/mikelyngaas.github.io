@@ -14,6 +14,7 @@
       --text: #1a1a1a;
       --text-muted: #4a4a4a;
       --text-light: #6b6b6b;
+      --divider: var(--accent, #e86b58);
       --border: #e2dfda;
       --card-bg: #ffffff;
       --radius: 0.5rem;
@@ -38,7 +39,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 0 1.5rem;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--divider);
       margin-bottom: 1.5rem;
     }
     .screenshot-topbar a {
@@ -146,7 +147,10 @@ flowchart LR
     });
     document.addEventListener('DOMContentLoaded', function() {
       requestAnimationFrame(function() {
-        mermaid.run({ querySelector: '.mermaid', suppressErrors: true });
+        var run = mermaid.run({ querySelector: '.mermaid', suppressErrors: true });
+        Promise.resolve(run).then(function() {
+          if (window.MikeSiteTheme && window.MikeSiteTheme.injectDiagramOverrides) window.MikeSiteTheme.injectDiagramOverrides();
+        });
       });
     });
   </script>
