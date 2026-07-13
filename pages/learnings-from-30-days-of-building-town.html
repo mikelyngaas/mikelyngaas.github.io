@@ -47,6 +47,7 @@
       --space-2xl: 2rem;
       --space-3xl: 2.5rem;
       --space-4xl: 3rem;
+      --space-5xl: 4rem;
       --text-xs: 0.75rem;
       --text-sm: 0.875rem;
       --text-base: 1rem;
@@ -107,8 +108,8 @@
 
     .nav-back { display: flex; align-items: center; gap: var(--space-xs); }
 
-    article {
-      padding: var(--space-4xl) 0 var(--space-3xl);
+    article.wrap {
+      padding: var(--space-5xl) var(--space-xl) var(--space-4xl);
     }
 
     .article-header {
@@ -201,27 +202,31 @@
     }
 
     footer {
-      padding: var(--space-xl) 0 var(--space-3xl);
+      padding: var(--space-2xl) 0;
       border-top: 1px solid var(--border);
     }
 
     footer p {
       font-size: var(--text-sm);
-      color: var(--text-light);
+      color: var(--text-muted);
       margin: 0;
     }
 
     footer a {
       color: var(--text-muted);
       text-decoration: none;
-      transition: color 0.2s;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s, border-color 0.2s;
     }
 
-    footer a:hover { color: var(--accent); }
+    footer a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent-soft);
+    }
 
     @media (max-width: 768px) {
       .wrap { padding: 0 var(--space-lg); }
-      article { padding: var(--space-3xl) 0 var(--space-2xl); }
+      article.wrap { padding: var(--space-4xl) var(--space-lg) var(--space-3xl); }
     }
   </style>
 </head>
